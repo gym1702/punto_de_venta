@@ -15,8 +15,40 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path, include
+from django.conf import settings
+from django.conf.urls.static import static
+#
+from django.conf.urls import handler404
+#from applications.home.views import Error404View
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+
+    # re_path('', include('applications.users.urls')),
+    re_path('', include('applications.home.urls')),
+    # re_path('', include('applications.medicos.urls')),
+    # re_path('', include('applications.pacientes.urls')),
+    # re_path('', include('applications.expedientes.urls')),    
+    # re_path('', include('applications.citas.urls')),
+    # re_path('', include('applications.asistentes.urls')),
+    # re_path('', include('applications.secretarias.urls')),
+    # re_path('', include('applications.servicios.urls')),
+    # re_path('', include('applications.medicamentos.urls')),
+    # re_path('', include('applications.presupuestos.urls')),
+    # re_path('', include('applications.recetas.urls')),
+    # re_path('', include('applications.clinica.urls')),
+    # re_path('', include('applications.consentimiento.urls')),
+    # re_path('', include('applications.mantto.urls')),
+
+
+    
+] 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+#MANEJO DE ERROR 404
+#handler404 = Error404View.as_view()

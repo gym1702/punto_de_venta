@@ -1,0 +1,34 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block content_wrapper %}
+<section class="content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+           
+                <div class="row col-12">
+                    <div class="col-12">
+                        <div class="card m-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12" style="text-align: center;">
+                                        <img src="{% static 'base/img/logo.png' %}" width="160" height="60" alt="">
+                                    </div>
+                                </div>
+                                <div class="row">  
+                                    <div class="col-12 mt-4" style="text-align: center;">
+                                        <h3 class="text-muted"> Bienvenido(a) {{paciente}}</h3>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+{% endblock content_wrapper %}
+
+{% block content %}
+{% endblock content %}

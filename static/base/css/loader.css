@@ -1,0 +1,89 @@
+/* para page loader */
+
+.page-loader-overlay{
+    background-color: rgba(231, 240, 243, 0.5);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 10000;
+    display: none;
+}
+
+.page-loader {
+    border: 15px solid #ccc;
+    border-top-color: #267ff4;
+    border-top-style: groove;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    -webkit-animation: girar 1.5s linear infinite;
+    -o-animation: girar 1.5s linear infinite;
+    animation: girar 1.5s linear infinite;
+
+}
+
+.loader-text {
+    text-align: center;
+    margin-top: 410px;
+    font-size: 18px;
+    color: #2a3085;
+}
+
+
+@keyframes girar {
+    from{ transform: rotate(0deg);}
+    to{transform: rotate(360deg);}
+}
+
+
+
+/* para combreado en recetas y presupuestos */
+.sombreado{
+    background-color: #fff7f7;
+}
+
+
+/* para el collapsed de horario de citas */
+.collapse {
+    &:not(.show) {
+      display: none;
+    }
+  }
+  
+  .collapsing {
+    height: 0;
+    overflow: hidden;
+    @include transition($transition-collapse);
+  }
+
+
+/* PARA AJUSTAR TITULO AL CALENDARIO */
+.my-calendar .fc-event-title {
+  white-space: normal; /* Hace que el texto del título no se trunque y se muestre en múltiples líneas */
+  overflow: visible; /* Permite que el texto desborde el contenedor del evento si es necesario */
+  width: auto; /* Ajusta el ancho del evento automáticamente según el contenido */
+  color: rgb(13, 13, 15);
+  /* Otros estilos de texto personalizados */
+}
+
+
+/* PARA MENSAJE TIPO SELLO MARCA DE AGUA */
+.watermark {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-weight: bold;
+  color: lightgrey;
+  opacity: 0.5;
+  transform: rotate(-45deg);
+  z-index: -1;
+}

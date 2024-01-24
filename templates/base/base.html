@@ -1,0 +1,1000 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dentalzac | administracion </title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/png" href="/media/logos/favicon.png">
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
+  <!-- JQuery Confirm -->
+  <link rel="stylesheet" href=" {% static 'base/vendor/jquery-confirm/jquery-confirm.min.css' %}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+    integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css"> -->
+  <!-- Page loader -->
+  <link rel="stylesheet" href="{% static 'base/css/loader.css' %}">
+
+  <!-- Full Calendar -->
+  <link rel="stylesheet" href="{% static 'plugins/fullcalendar/lib/main.css' %}">
+
+
+</head>
+
+<!-- <body class="hold-transition sidebar-mini layout-fixed"> -->
+
+<body class="hold-transition sidebar-mini sidebar-collapse">
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+
+        <!-- MENU SUPERIOR DERECHO -->
+        {% if user.is_active %}
+        <li class="nav-item mt-2">
+          <a href="{% url 'users_app:cambiar_pass' %}" title="Click para cambiar contraseña"
+            style="color: rgb(107, 109, 109)">
+            {{ request.user.full_name }}
+          </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="btnLogout">
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+    {% block main_sidebar %}
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="{% url 'home_app:inicio' %}" class="brand-link">
+        <img src="/media/logos/logo2.png" alt="Logo" class="brand-image">
+        <span class="brand-text font-weight-light">dentalzac</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="{% static 'dist/img/perfil-user_2.png' %}" class="img-circle elevation-1" alt="User Image">
+          </div>
+
+          <!-- NOMBRE EN PARTE IZQUIERDA -->
+          <div class="info">
+            <!-- <div class="text-secondary">Usuario</div>  -->
+            <p style="color: rgb(200, 202, 202); font-size:medium;">
+              {{ user.tipo }}
+            </p>
+            <!-- <a href="{#% url 'users_app:cambiar_pass' %#}" title="Click para cambiar contraseña" style="color: rgb(200, 202, 202); font-size: small;">
+              {{ user.full_name }}
+            </a> -->
+            <!-- <button onclick="abrir_modal('{#% url 'pacientes_app:paciente_editar' request.user.pk %#}')"  class="btn btn-lg btn-info btn-sm" >
+              Editar perfil
+            </button> -->
+            <!-- <a href="{#% url 'users_app:cambiar_pass' %#}" style="color: rgb(200, 202, 202); font-size: small;">
+              Editar perfil
+            </a> -->
+
+          </div>
+        </div>
+
+        <!--***********************
+                Sidebar Menu 
+             ***********************-->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+            <li class="nav-item">
+              {% if perms.pacientes %}
+              <a href="{% url 'pacientes_app:paciente_listar' %}" class="nav-link">
+                <i class="nav-icon fa fa-users" style="color: rgb(146, 194, 213); font-size:x-large;"></i>
+                <p>
+                  &nbsp;Pacientes
+                </p>
+              </a>
+              {% endif %}
+            </li>
+
+
+            <li class="nav-item">
+              {% if perms.expedientes or perms.presupuestos %}
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-folder" style="color: rgb(215, 215, 163); font-size:x-large;"></i>
+                <p>
+                  Expedientes
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              {% endif %}
+
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  {% if perms.expedientes.view_hgenral %}
+                  <a href="{% url 'expedientes_app:hcg_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-file-lines nav-icon"></i>
+                    <p>Historia Clinica General</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.expedientes.view_horto %}
+                  <a href="{% url 'expedientes_app:hco_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-file-waveform nav-icon"></i>
+                    <p>Historia Clinica Orto</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.expedientes.view_consulta or perms.presupuestos %}
+                  <a href="{% url 'expedientes_app:consulta_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-file-medical nav-icon"></i>
+                    <p>Consulta y expediente</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+              </ul>
+            </li>
+
+
+            <li class="nav-item">
+              {% if perms.expedientes %}
+              <a href="{% url 'recetas_app:receta_listar' %}" class="nav-link">
+                <i class="nav-icon fa fa-list-alt" style="color: rgb(187, 165, 222); font-size:x-large;"></i>
+                <p>
+                  Recetas
+                </p>
+              </a>
+              {% endif %}
+            </li>
+
+            <!-- CITAS PACIENTES -->
+            <li class="nav-item">
+              {% if not perms.pacientes %}
+              <a href="{#% url 'citas_app:citas_listar' %#}" class="nav-link">
+                <i class="nav-icon fa fa-calendar-days" style="color: rgb(174, 235, 221); font-size:x-large;"></i>
+                <p>
+                  Citas
+                </p>
+              </a>
+              {% endif %}
+            </li>
+
+            <!-- CITAS NO PACIENTES -->
+            <li class="nav-item">
+              {% if perms.pacientes %}
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-calendar-days" style="color: rgb(174, 235, 221); font-size:x-large;"></i>
+                <p>
+                  Citas
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              {% endif %}
+
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  {% if perms.pacientes %}
+                  <a href="{% url 'citas_app:ver_calendario' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar nav-icon"></i>
+                    <p>Calendario</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.pacientes %}
+                  <a href="{% url 'citas_app:citas_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-plus nav-icon"></i>
+                    <p>Listar/Agendar/Cancelar</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.pacientes %}
+                  <a href="{% url 'citas_app:citasRevision_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-plus nav-icon"></i>
+                    <p>Cita de revision</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+              </ul>
+            </li>
+
+
+            <!-- <li class="nav-item">
+              {% if perms.medicos or perms.asistentes or perms.secretarias %}
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-file"></i>
+                <p>
+                  Consentimientos
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              {% endif %}
+
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  {% if perms.consentimiento %}
+                  <a href="{% url 'consentimientos_app:consentimiento_listar' %}" class="nav-link">
+                    <i class="nav-icon fa fa-list"></i>
+                    <p>
+                      Tipos
+                    </p>
+                  </a>
+                  {% endif %}              
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.consentimiento.view_emitirconsentimiento %}
+                  <a href="{% url 'consentimientos_app:emitir_listar' %}" class="nav-link">
+                    <i class="nav-icon fa fa-list"></i>
+                    <p>
+                      Emitir consentimiento
+                    </p>
+                  </a>
+                  {% endif %}  
+                </li>
+                
+              </ul>
+            </li> -->
+
+            <li class="nav-item">
+              {% if perms.consentimiento.view_emitirconsentimiento %}
+              <a href="{% url 'consentimientos_app:emitir_listar' %}" class="nav-link">
+                <i class="nav-icon fa fa-file" style="color: rgb(220, 168, 156); font-size:x-large;"></i>
+                <p>
+                  Emitir consentimiento
+                </p>
+              </a>
+              {% endif %}
+            </li>
+
+
+            <!-- <li class="nav-item">
+              {% if perms.consentimiento.view_emitirconsentimiento %}
+              <a onclick="abrir_modal('{% url 'consentimientos_app:emitir_crear' %}')" class="nav-link">
+                <i class="nav-icon fa fa-file"></i>
+                <p>
+                  Emitir consentimiento
+                </p>
+              </a>
+              {% endif %}  
+            </li> -->
+
+
+
+            <li class="nav-item">
+              {% if perms.presupuestos %}
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-calculator" style="color: rgb(224, 164, 221); font-size:x-large;"></i>
+                <p>
+                  Presupuestos
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              {% endif %}
+
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  {% if perms.presupuestos.view_presupuesto %}
+                  <a href="{% url 'presupuestos_app:presupuesto_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-list nav-icon"></i>
+                    <p>Listar/Agendar/Cancelar</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.presupuestos.view_pago %}
+                  <a href="{% url 'presupuestos_app:pagos_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-usd nav-icon"></i>
+                    <p>Estados de cuenta</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+              </ul>
+            </li>
+
+
+            <li class="nav-item">
+              {% if perms.servicios or perms.medicamentos %}
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-layer-group" style="color: rgb(176, 221, 164); font-size:x-large;"></i>
+                <p>
+                  Catálogos
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              {% endif %}
+
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  {% if perms.servicios.view_servicio %}
+                  <a href="{% url 'servicios_app:servicio_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-tooth nav-icon"></i>
+                    <p>Servicios</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.medicamentos.view_medicamento %}
+                  <a href="{% url 'medicamentos_app:medicamento_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-pills nav-icon"></i>
+                    <p>Medicamentos</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.consentimiento or perms.medicos or perms.asistentes or perms.secretarias %}
+                  <a href="{% url 'consentimientos_app:consentimiento_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="nav-icon fa fa-list"></i>
+                    <p>
+                      Consentimientos
+                    </p>
+                  </a>
+                  {% endif %}
+                </li>
+
+              </ul>
+            </li>
+
+
+            <li class="nav-item">
+              {% if perms.medicos or perms.asistentes or perms.secretarias %}
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-user" style="color: rgb(113, 152, 234); font-size:x-large;"></i>
+                <p>
+                  Personal de la clínica
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              {% endif %}
+
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  {% if perms.medicos.view_medico %}
+                  <a href="#" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-user-md nav-icon"></i>
+                    <p>
+                      Odontológos
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+                  {% endif %}
+
+                  <ul class="nav nav-treeview">
+
+                    <li class="nav-item">
+                      {% if perms.medicos.view_medico %}
+                      <a href="{% url 'medicos_app:medico_listar' %}" class="nav-link">
+                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-md nav-icon"></i>
+                        <p> Listar/Crear</p>
+                      </a>
+                      {% endif %}
+                    </li>
+
+                    <li class="nav-item">
+                      {% if perms.medicos.view_medico %}
+                      <a href="{% url 'medicos_app:horario_listar' %}" class="nav-link">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-clock nav-icon"></i>
+                        <p> Horarios</p>
+                      </a>
+                      {% endif %}
+                    </li>
+
+                    <li class="nav-item">
+                      {% if perms.medicos.view_medico %}
+                      <a href="{% url 'medicos_app:festivo_listar' %}" class="nav-link">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar nav-icon"></i>
+                        <p> Dias inhábiles</p>
+                      </a>
+                      {% endif %}
+                    </li>
+                  </ul>
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.asistentes.view_asistente %}
+                  <a href="{% url 'asistentes_app:asistente_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-user-nurse nav-icon"></i>
+                    <p> Asistentes</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.secretarias.view_secretaria %}
+                  <a href="{% url 'secretarias_app:secretaria_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-user nav-icon"></i>
+                    <p> Secretarias</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <!-- <li class="nav-item">
+                  {% if perms.clinicas %}
+                  <a href="{% url 'clinica_app:clinica_listar' %}" class="nav-link">
+                    <i class="fa fa-house-chimney-medical nav-icon"></i>
+                    <p>
+                      Datos de Clinica
+                    </p>
+                  </a>
+                  {% endif %}              
+                </li> -->
+
+              </ul>
+            </li>
+
+
+            <!--CLINICA -->
+            <li class="nav-item">
+              {% if perms.clinicas %}
+              <a href="#" class="nav-link">
+                <i class="fa fa-gear nav-icon" style="color: rgb(164, 197, 221); font-size:x-large;"></i>
+                <p>
+                  Configuraciones
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              {% endif %}
+
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  {% if perms.clinicas %}
+                  <a href="{% url 'clinica_app:clinica_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-house-chimney-medical nav-icon"></i>
+                    <p>Clinica</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.clinicas %}
+                  <a href="{% url 'mantto_app:acciones' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-database nav-icon"></i>
+                    <p>Mantenimiento</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+              </ul>
+            </li>
+
+
+            <!-- <li class="nav-item">
+              {% if perms.clinicas %}
+                <a href="{% url 'clinica_app:clinica_listar' %}" class="nav-link">
+                  <i class="fa fa-house-chimney-medical nav-icon" style="color: rgb(164, 197, 221); font-size:x-large;"></i>
+                  <p>
+                    Datos de Clinica
+                  </p>
+                </a>
+              {% endif %} 
+            </li> -->
+
+
+            <!-- SALIR -->
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="btnLogout1">
+                <i class="fas fa-sign-out-alt nav-icon" style="color: rgb(167, 163, 176); font-size:x-large;"></i>
+                <p>
+                  Salir
+                </p>
+              </a>
+            </li>
+
+
+          </ul>
+        </nav>
+      </div>
+    </aside>
+    {% endblock main_sidebar %}
+
+
+
+    <!-- TITULO DEL CARD -->
+    <div class="content-wrapper">
+      {% block content_wrapper %}
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0"> </h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <!-- <li class="breadcrumb-item"><a href="/">Inicio</a></li> -->
+                <!-- <li class="breadcrumb-item active">Starter Page</li> -->
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock content_wrapper %}
+
+
+      <!-- CONTENIDO -->
+      <div class="content">
+        <div class="container-fluid">
+          {% block content %}
+          <div class="row">
+
+
+          </div>
+          {% endblock content %}
+        </div>
+      </div>
+    </div>
+
+
+    <!-- SIDEBAR MENU DE USUARIO LADO DERECHO -->
+    <!-- {% block sidebar %}
+    <aside class="control-sidebar control-sidebar-dark">
+      <div class="p-3">
+        <h5 class="mb-3">Perfil de usuario</h5>
+        <p><a href="{#% url 'config:user_list' %#}" rel="noopener noreferrer"><i class="fas fa-edit"></i> Editar datos</a></p>
+        <p><a href="{#% url 'users_app:cambiar_pass' %#}" rel="noopener noreferrer"><i class="fas fa-user-lock"></i>  Cambiar contraseña</a></p>
+      </div>
+    </aside>
+    {% endblock sidebar %} -->
+
+
+    <!-- FOOTER -->
+    {% block footer %}
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-inline">
+        <strong>dentalzac</strong> - {{request.user.full_name}}
+      </div>
+
+      <a href="https://web.glsoft.com.mx" target="_blank">
+        <img src="{% static 'base/img/logo_glsoft.png' %}" alt="Logo" width="100"> -
+
+        <!-- <span class="brand-text font-weight-light">glsoft</span> -->
+      </a>
+      Copyright &copy; 2023
+      <!-- <strong>Copyright &copy; 2023 <a href="https://web.glsoft.com.mx">glsoft</a>.</strong> -->
+    </footer>
+    {% endblock footer %}
+
+
+  </div>
+
+
+  <!-- REQUIRED SCRIPTS -->
+  <!-- jQuery -->
+  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+
+  <!-- Select2 -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <!-- Chainedjs -->
+  <script src="{% static 'base/js/jquery.chained.min.js' %}"></script>
+
+  <!-- DateTimePicker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- SweetAlert2 -->
+  <script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+  <!-- sweetify -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
+  <!-- Toastr -->
+  <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+  <!-- JQuery Confirm -->
+  <script src="{% static 'base/vendor/jquery-confirm/jquery-confirm.min.js' %}"></script>
+
+
+  <!-- DataTables  & Plugins -->
+  <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'plugins/jszip/jszip.min.js' %}"></script>
+  <script src="{% static 'plugins/pdfmake/pdfmake.min.js' %}"></script>
+  <script src="{% static 'plugins/pdfmake/vfs_fonts.js' %}"></script>
+  <script src="{% static 'plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+  <script src="{% static 'plugins/fullcalendar/lib/main.js' %}"></script>
+
+
+
+  {% block js %}
+  <script>
+    //ABRIR MODAL GENERICO
+    var $ = jQuery.noConflict();
+    function abrir_modal(url) {
+      $('#frmModal').load(url, function () {
+        $(this).modal({
+          backdrop: 'static',
+          keyboard: false
+        })
+        $(this).modal('show');
+      })
+    }
+
+
+    //ABRIR MODAL DE CONSULTA
+    var $ = jQuery.noConflict();
+    function abrir_modal_consulta(url) {
+      $('#frmModalConsulta').load(url, function () {
+        $(this).modal({
+          backdrop: 'static',
+          keyboard: false
+        })
+        $(this).modal('show');
+      })
+    }
+
+
+    //ABRIR MODAL DE EDICION DE NOTA DE EVOLUCION
+    var $ = jQuery.noConflict();
+    function abrir_modal_edita_nota(url) {
+      $('#frmModalNota').load(url, function () {
+        $(this).modal({
+          backdrop: 'static',
+          keyboard: false
+        })
+        $(this).modal('show');
+      })
+    }
+
+
+    //CERRAR MODAL EDICION DE NOTAS
+    function cerrar_modal_notas() {
+      $('#frmModalNota').modal('hide');
+      $('#frmModalNota').on('show.bs.modal', function (e) {
+        e.stopPropagation(); // Evita que el evento se propague hacia arriba
+      });
+
+
+    }
+
+
+    //RACARGAR PAGINA
+    function actualizarpagina() {
+      setTimeout('location.reload(true)', 1000);
+    }
+
+
+    //RECARGAR PAGINA SIN CERRAR FORMULARIO
+    function actualizarpaginasincerrar() {
+      setTimeout('location.reload(true)', 1000);
+    }
+
+
+    // PARA MENSAJE DE SALIDA DE SESION
+    $("#btnLogout").click(function (e) {
+      Swal.fire({
+        position: 'top',
+        title: 'Cerrar sesión',
+        text: "¿Está seguro de querer cerrar la sesion de {{ user.full_name }}?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'primary',
+        cancelButtonColor: 'secondary',
+        confirmButtonText: 'Salir',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.replace("{#% url 'users_app:logout' %#}")
+        }
+      })
+    })
+
+
+    // PARA MENSAJE DE SALIDA DE SESION
+    $("#btnLogout1").click(function (e) {
+      Swal.fire({
+        position: 'top',
+        title: 'Cerrar sesión',
+        text: "¿Está seguro de querer cerrar la sesion de {{ user.full_name }}?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'primary',
+        cancelButtonColor: 'secondary',
+        confirmButtonText: 'Salir',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.replace("{#% url 'users_app:logout' %#}")
+        }
+      })
+    })
+
+
+    //PARA MAEJO Y ACTIVACION DE OPCIONES DE MENU
+    $(document).ready(function () {
+      var $enlaces = $(".nav>.nav-item>.nav-link");
+
+      $($enlaces).each(function () {
+        var request_path = '{{request.path}}'
+        console.log(request_path)
+        var link = $(this).attr('href')
+
+        if (request_path.includes(link) && link != '/') {
+          var grp_padre = $(this).parent().parent().parent().first()
+          var contenedor = grp_padre.children("a")
+          $(this).addClass("active")
+          grp_padre.addClass("menu-open")
+          contenedor.addClass("active")
+        }
+      })
+
+
+      //INICIALIZA DATETIMEPICKER
+      jQuery.datetimepicker.setLocale('es');
+
+    })
+
+
+    //MENSAJE BORRADO CON SWEETALERT
+    function borrar(desc, url) {
+      Swal.fire({
+        title: 'Eliminar',
+        text: `¿Se eliminará ${desc}, realmente desea hacerlo?. Este registro no podra ser recuperado.`,
+        icon: 'question',
+        // timer: 10000,
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        allowOutsideClick: false,
+        confirmButtonClass: 'btn btn-danger',
+      }).then((eliminar) => {
+        console.log(eliminar)
+        if (eliminar.isConfirmed) {
+          var token = '{{csrf_token}}'
+          $.ajax({
+            headers: { 'X-CSRFToken': token },
+            type: 'POST',
+            url: url,
+            success: function (r) {
+              if (r === 'OK') {
+                Swal.fire({
+                  title: '',
+                  text: 'La eliminación del registro se realizo con éxito',
+                  icon: 'success',
+                  timer: 3500,
+                  position: 'center',
+                })
+                actualizarpagina()
+              } else {
+                Swal.fire({
+                  title: 'Error inesperado',
+                  text: 'Se produjo un error al tratar de eliminar el registro' + r,
+                  icon: 'info',
+                  timer: 1200,
+                })
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrow) {
+              Swal.fire(errorThrow, '', 'red')
+            }
+          })
+        } else {
+          // Swal.fire({
+          //   title: 'La eliminación del registro se canceló',
+          //   text: '',
+          //   icon: 'info',
+          //   timer: 1200,
+          // })
+        }
+      })
+    }
+
+
+    //MENSAJE BORRAR PRESUPUESTO CON SWEETALERT
+    function borrarPresupuestoDetalle(desc, url) {
+      Swal.fire({
+        title: 'Eliminar',
+        text: `¿Se eliminará el presupuesto no. ${desc}, realmente desea hacerlo?.`,
+        icon: 'question',
+        // timer: 10000,
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        allowOutsideClick: false,
+        confirmButtonClass: 'btn btn-danger',
+      }).then((eliminar) => {
+        console.log(eliminar)
+        if (eliminar.isConfirmed) {
+          var token = '{{csrf_token}}'
+          $.ajax({
+            headers: { 'X-CSRFToken': token },
+            type: 'POST',
+            url: url,
+            success: function (r) {
+              if (r === 'OK') {
+                Swal.fire({
+                  title: '',
+                  text: 'La eliminación del presupuesto se realizó con éxito',
+                  icon: 'success',
+                  timer: 3500,
+                  position: 'center',
+                })
+                actualizarpagina()
+              } else {
+                Swal.fire({
+                  title: 'Error inesperado',
+                  text: 'Se produjo un error al tratar de eliminar el presupuesto' + r,
+                  icon: 'info',
+                  timer: 1200,
+                })
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrow) {
+              Swal.fire(errorThrow, '', 'red')
+            }
+          })
+        } else {
+          // Swal.fire({
+          //   title: 'La eliminación del registro se canceló',
+          //   text: '',
+          //   icon: 'info',
+          //   timer: 1200,
+          // })
+        }
+      })
+    }
+
+
+    //PARA MENSAJES SWEETALERT 
+    {% if messages %}
+    {% for message in messages %}
+    console.log('{{ messages.tags }}');
+    mensajesweet('{{ message }}');
+    {% endfor %}
+    {% endif %}
+
+
+    //PARA MENSAJES SWEETALERT 
+    function mensajesweet(msg, icon = "success", title = '', position = "center", boton = "true", tiempo = "5000") {
+      Swal.fire({
+        position: position,
+        icon: icon,
+        title: title,
+        text: msg,
+        showConfirmButton: boton,
+        timer: tiempo
+      });
+    }
+
+
+
+    //PARA MENSAJES SWEETALERT ERROR 
+    function mensajesweeterror(msg, icon = "error", title = '', position = "center", boton = "true", tiempo = "3000") {
+      Swal.fire({
+        position: position,
+        icon: icon,
+        title: title,
+        text: msg,
+        showConfirmButton: boton,
+        timer: tiempo
+      });
+    }
+
+
+    //CERRAR MODAL
+    function cerrar_modal() {
+      $('#frmModal').modal('hide');
+      return false;
+    }
+
+    function cerrar_modal2() {
+      $('#frmModal2').modal('hide');
+      return false;
+    }
+
+
+    //NECESARIO PARA MENSAJES TOASTR EN LAS VISTAS 
+    // {% if messages %}
+    //   {% for m in messages %}
+    //     mansaje('{{ m }}','{{ m.tags }}');
+    //   {% endfor %}
+    // {% endif %}
+
+
+    //MENSAJE CON TOASTR
+    function mansaje(msg, tipo = 'success') {
+      var tst = `toastr.${tipo}('${msg}')`
+      eval(tst)
+    }
+
+  </script>
+  {% endblock js %}
+
+
+  {% block data_table %}
+  <script>
+    //INICIALIZAR DATATABLES
+    $(document).ready(function () {
+      $("#tbl").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#tbl_wrapper .col-md-6:eq(0)');
+    })  
+
+    $(document).ready(function () {
+      $("#tbl1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#tbl_wrapper .col-md-6:eq(0)');
+    }) 
+
+  </script>
+  {% endblock data_table %}
+
+
+</body>
+
+</html>
