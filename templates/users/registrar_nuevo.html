@@ -1,0 +1,260 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dentalzac | glsoft</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+</head>
+
+<body class="hold-transition login-page">
+    <br>
+    <br>
+
+    <div class="card card-outline card-primary">
+        <div class="card-body p-0">            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="p-4">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Registro para cita de primera vez</h1>
+                            <small class="text-danger">
+                                {% if form.errors %}
+                                {% for field in form %}
+                                {% if field.errors %}
+                                {% for error in field.errors %}
+                                {{ error | escape}}
+                                {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                {{ error | escape}}
+                                {% endfor %}
+                                {% endif %}
+                                {% endif %}
+                            </small>
+                        </div>
+                        <form class="user" method="post" id="form">
+
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="">Nombre completo</label>
+                                    {{ form.full_name}}
+                                </div>
+                                <div class="col-6">
+                                    <label for="id_email">Email</label>
+                                    {{ form.email}}
+                                </div>                                
+                            </div>
+                            <br>
+
+                            <div class="row mb-12">
+                                <div class="col-4">
+                                    <label for="id_telefono">Teléfono</label>
+                                    <div>
+                                        {{ form.telefono }}
+                                    </div>
+                                </div>      
+                                <div class="col-4">
+                                    <label for="fecha_nac">Fecha de nacimiento</label>
+                                    <div>
+                                        
+                                        <input type="date" name="fecha_nac" id="fecha_nac" pattern="\d{4}-\d{2}-\d{2}" class="form-control" required>
+                                        <!-- {{ form.fecha_nac }} -->
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label>Sexo</label>
+                                    <div>
+                                        {{ form.sexo }}
+                                    </div>
+                                </div>                          
+                            </div>
+                            <br>
+
+                            <div class="row mb-12">
+                                <div class="col-4">
+                                    <label>Estado civil</label>
+                                    <div>
+                                        {{ form.edo_civil }}
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label>Escolaridad</label>
+                                    <div>
+                                        {{ form.escolaridad }}
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label>Ocupación</label>
+                                    <div>
+                                        {{ form.ocupacion }}
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row mb-12">
+                                <div class="col-12">
+                                    <label>Dirección</label>
+                                    <div>
+                                        {{ form.direccion }}
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row mb-12">
+                                <div class="col-5">
+                                    <label>Contacto</label>
+                                    <div>
+                                        {{ form.contacto }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label>Parentezco</label>
+                                    <div>
+                                        {{ form.parentezco }}
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label for="id_tel_contacto">Telefono de contacto</label>
+                                    <div>
+                                        {{ form.tel_contacto }}
+                                    </div>
+                                </div>                                
+                            </div>
+                            <br>
+
+                            <div class="col-4" hidden>
+                                <label>Edad</label>
+                                <div>
+                                    {{ form.edad }}
+                                </div>
+                            </div>
+
+                            <div class="row mb-12">
+                                <div class="col-5">
+                                    <label for="medico">Odontólogo</label>
+                                    <select name="medico" id="medico" class="form-control" required>                                       
+                                        {% for med in medicos_all %}
+                                            <option value="{{ med.pk }}">{{ med.full_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div align="right">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <a href="{% url 'users_app:login' %}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+</body>
+
+<script>
+    //datepicker
+    var f = $('#fecha_nac').val()
+    
+    if(f == ''){
+        $('#fecha_nac').datetimepicker({
+            timepicker: false,
+            format:'Y-m-d',
+            value: new Date(),
+        });
+    }else{ 
+        $('#fecha_nac').datetimepicker({
+            timepicker: false,
+            format:'Y-m-d',
+            // value: new Date(), 
+        });
+    };
+
+
+    //LLENA EL EMAIL A LA PAR QUE ESCRIBO EL NOMBRE
+    // function updateEmail() {
+    //     const fullNameInput = document.getElementById('full_name');
+    //     const emailInput = document.getElementById('email');
+
+    //     const fullName = fullNameInput.value.trim();
+    //     const firstName = fullName.split(' ')[0].toLowerCase();
+    //     emailInput.value = `${firstName}@example.com`;
+    // }
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     const nombre = document.getElementById("id_full_name");
+    //     const emailInput = document.getElementById("id_email");
+
+    //     nameInput.addEventListener("input", function() {
+    //         // Obtén el valor del nombre ingresado por el usuario
+    //         const nameValue = nameInput.value.trim();
+
+    //         // Genera el correo electrónico utilizando las tres primeras letras del nombre
+    //         // y la dirección de correo de tu elección (por ejemplo, ejemplo.com)
+    //         const emailValue = nameValue.slice(0, 3).toLowerCase() + "@ejemplo.com";
+
+    //         // Asigna el valor del correo electrónico al campo correspondiente
+    //         emailInput.value = emailValue;
+    //     });
+    // });
+
+    
+
+
+    //VALIDA EMAIL
+    function validateEmail(email) {
+        const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+    document.getElementById('frmModal').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const emailInput = document.getElementById('id_email').value;
+        if (validateEmail(emailInput)) {
+            // If email is valid, submit the form
+            this.submit();
+        } else {
+            // If email is invalid, show SweetAlert message
+            Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Verifique que el correo electrónico sea correcto.',
+            });
+        }
+    });
+
+</script>
+
+</html>

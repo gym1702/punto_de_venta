@@ -1,0 +1,209 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3 class="modal-title text-secondary">
+                {% if obj %} Editar {% else %} Nueva {% endif %} Empresa
+            </h3>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            {% if obj %}
+            <form method="post" id="frmModal" rol="form" class="form" action="{% url 'empresa_app:empresa_editar' obj.pk %}"
+                enctype="multipart/form-data">
+                {% else %}
+                <form method="post"  id="frmModal" rol="form" class="form" action="{% url 'empresa_app:empresa_crear' %}"
+                    enctype="multipart/form-data">
+                    {% endif %}
+
+                    {% csrf_token %} 
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row mb-12 text-center">
+                                        <div class="col-12">
+                                            <label>Logo principal</label>
+                                            <div>
+                                                <img src="{{ obj.logo_principal.url }}" alt="Logo principal" width="140px">
+                                            </div>
+                                            <br>
+                                            <div>
+                                                {{ form.logo_principal }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row mb-12 text-center">
+                                        <div class="col-12">
+                                            <label>Logo secundario</label>
+                                            <div>
+                                                <img src="{{ obj.logo_secundario.url }}" alt="Logo secundario" width="80px">
+                                            </div>
+                                            <br>
+                                            
+                                            <div>
+                                                {{ form.logo_secundario }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row mb-12 text-center">
+                                        <div class="col-12">
+                                            <label>Favicon (icono pestaña)</label>
+                                            <div>
+                                                <img src="{{ obj.favicon.url }}" alt="Favicon" width="80px">
+                                            </div>
+                                            <br>
+                                            
+                                            <div>
+                                                {{ form.favicon }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div> -->
+                        
+                        <div class="col-12">
+                           <hr> 
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="row mb-12">
+                                <div class="col-6">
+                                    <label>Nombre de la empresa</label>
+                                    <div>
+                                        {{ form.nombre }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label>Nombre corto</label>
+                                    <div>
+                                        {{ form.nombre_corto }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label>Eslogan</label>
+                                    <div>
+                                        {{ form.eslogan }}
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <label>Calle</label>
+                                    <div>
+                                        {{ form.calle }}
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <label>Número</label>
+                                    <div>
+                                        {{ form.numero }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label>Colonia</label>
+                                    <div>
+                                        {{ form.colonia }}
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label>Referencias</label>
+                                    <div>
+                                        {{ form.referencia }}
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <label>Ciudad</label>
+                                    <div>
+                                        {{ form.ciudad }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label>Estado</label>
+                                    <div>
+                                        {{ form.estado }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label>C.P.</label>
+                                    <div>
+                                        {{ form.cp }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label>Teléfono</label>
+                                    <div>
+                                        {{ form.telefono }}
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row mb-12">                                
+                                <div class="col-6">
+                                    <label>Email</label>
+                                    <div>
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label>Web</label>
+                                    <div>
+                                        {{ form.web }}
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                        
+                            <div class="modal-footer">
+                                <div ALIGN="right">
+                                    <div>
+                                        <button type="submit" class="btn btn-primary">
+                                            Guardar
+                                        </button>
+
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,188 @@
+{% extends 'base/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        
+                        <button onclick="abrir_modal('{% url 'clientes_app:cliente_crear' %}')" class="btn btn-primary">Crear cliente</button>
+                    
+                    </div>
+
+                    <div class="card-body">
+                        <h3 class="text-muted text-center"> Listado de clientes</h3>
+
+                        <table id="tbl" class="table table-bordered table-striped">
+                            <thead>
+                                <th>No.</th>
+                                <th>Razon social</th>
+                                <th>RFC</th>
+                                <th>Dirección</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Crédito</th>
+                                <th class="all">Acciones</th>
+                            </thead>
+                            <tbody>
+                                {% for item in obj %}
+                                <tr>
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.razon_social}}</td>
+                                    <td>{{item.rfc}}</td>
+                                    <td>{{item.direccion}}, C.P. {{item.cp}}.</td>
+                                    <td>{{item.email}}</td>
+                                    <td>{{item.telefono}}</td>
+                                    <td>{{item.credito}}</td>
+
+                                    <td>                                        
+                                        <button onclick="abrir_modal('{% url 'clientes_app:cliente_detalle' item.id %}')" class="btn btn-lg btn-secondary btn-sm" title="Ver"><i class="fa fa-eye"></i></button>
+                                        
+                                        <button onclick="abrir_modal('{% url 'clientes_app:cliente_editar' item.id %}')" class="btn btn-lg btn-info btn-sm" title="Editar"><i class="fa fa-edit"></i></button>
+
+                                        <button type="button" class="btn btn-lg btn-danger btn-sm" title="Borrar" onclick='return borrarCliente("{{ item.razon_social }}", "{% url 'clientes_app:cliente_eliminar' item.id %}")'><i class="fa fa-trash"></i></button>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                            <div class="modal fade" id="frmModal" role="dialog">
+    
+                            </div>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+
+{% block data_table %}
+<script>
+    //INICIALIZAR DATATABLE
+    $("#tbl").DataTable({
+        "responsive": true, 
+        "lengthChange": false, 
+        "autoWidth": false, 
+        "language": {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i>',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+                title:     'Listado de clientes',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6]
+                }
+            },
+            // {
+            //     extend: 'pdfHtml5',
+            //     text: '<i class="fas fa-file-pdf"></i>',
+            //     titleAttr: 'Exportar a PDF',
+            //     className: 'btn btn-danger',
+            //     title:     'Listado de clientes',
+            //     exportOptions: {
+            //         columns: [0,1,2,3,4,5,6]
+            //     }
+            // },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i>',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                title:     'Listado de clientes',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6]
+                }
+            },
+            {
+                extend: 'colvis',
+                text: '<i class="fas fa-table"></i>',
+                titleAttr: 'Mostar/ocultar campos',
+                className: 'btn btn-secondary'
+            },
+
+        ]
+    }).buttons().container().appendTo('#tbl_wrapper .col-md-6:eq(0)');
+
+
+    
+    //MENSAJE BORRAR 
+    function borrarCliente(desc, url){
+      Swal.fire({
+        title: 'Eliminar',
+        text: `¿Se eliminará el cliente ${desc}, realmente desea hacerlo?`,
+        icon: 'question',
+        // timer: 10000,
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        allowOutsideClick: false,
+        confirmButtonClass: 'btn btn-danger',
+      }).then((eliminar) => {
+        console.log(eliminar)
+        if (eliminar.isConfirmed){
+          var token = '{{csrf_token}}'
+          $.ajax({
+            headers: {'X-CSRFToken': token},
+            type: 'POST',
+            url: url,
+            success: function(r){
+              if(r==='OK'){
+                Swal.fire({
+                  title: '',
+                  text: 'La eliminación del cliente se realizo con éxito',
+                  icon: 'success',
+                  timer: 3500,
+                  position: 'center',
+                })
+                actualizarpagina()
+              }else{
+                Swal.fire({
+                  title: 'Error inesperado',
+                  text: 'Se produjo un error al tratar de eliminar el cliente' + r,
+                  icon: 'info',
+                  timer: 1200,
+                })
+              }
+            },
+            error: function(jqXHR, textStatus, errorThrow){
+              Swal.fire(errorThrow, '', 'red')
+            }
+          })
+        }
+      })
+    }
+
+
+</script>
+{% endblock data_table %}

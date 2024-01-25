@@ -13,12 +13,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12" style="text-align: center;">
-                                        <img src="{% static 'base/img/logo.png' %}" width="160" height="60" alt="">
+                                        <img src="/media/logos/logo1.jpg" width="350" height="80" alt="">
                                     </div>
                                 </div>
                                 <div class="row">  
                                     <div class="col-12 mt-4" style="text-align: center;">
-                                        <h3 class="text-muted"> Bienvenido(a) {{paciente}}</h3>
+                                        <h3 class="text-muted"> Bienvenido(a) {{request.user.full_name}}</h3>
                                     </div>
                                 </div>  
                             </div>

@@ -26,10 +26,13 @@ from django.conf.urls import handler404
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # re_path('', include('applications.users.urls')),
     re_path('', include('applications.home.urls')),
+    re_path('', include('applications.users.urls')),   
+    re_path('', include('applications.empresa.urls')), 
+    re_path('', include('applications.clientes.urls')),
+    
     # re_path('', include('applications.medicos.urls')),
-    # re_path('', include('applications.pacientes.urls')),
+    
     # re_path('', include('applications.expedientes.urls')),    
     # re_path('', include('applications.citas.urls')),
     # re_path('', include('applications.asistentes.urls')),
@@ -37,8 +40,7 @@ urlpatterns = [
     # re_path('', include('applications.servicios.urls')),
     # re_path('', include('applications.medicamentos.urls')),
     # re_path('', include('applications.presupuestos.urls')),
-    # re_path('', include('applications.recetas.urls')),
-    # re_path('', include('applications.clinica.urls')),
+    # re_path('', include('applications.recetas.urls')),    
     # re_path('', include('applications.consentimiento.urls')),
     # re_path('', include('applications.mantto.urls')),
 

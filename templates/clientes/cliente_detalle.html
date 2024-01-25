@@ -1,0 +1,116 @@
+{% load humanize %}
+
+<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+        
+        <div class="modal-header">
+            <h3 class="modal-title text-secondary">
+                Detalles del cliente
+            </h3>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">                        
+
+            <div class="col-12">  
+
+                <div class="row">
+                    <div class="col-12">
+                        <label for="nombre">Nombre</label>
+                        <div>
+                            <h4>{{ obj.razon_social }}</h4>
+                        </div>
+                    </div>                                                               
+                </div>
+                <br> 
+
+                <div class="row mb-12">
+                    <div class="col-3">
+                        <label for="nombre">RFC</label>
+                        <div>
+                            {{ obj.rfc }}
+                        </div>
+                    </div>   
+                    
+                    <div class="col-3">
+                        <label for="nombre">Email</label>
+                        <div>
+                            {{ obj.email }}
+                        </div>
+                    </div>
+                    
+                    <div class="col-3">
+                        <label for="nombre">Teléfono</label>
+                        <div>
+                            {{ obj.telefono }}
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label for="nombre">C.P.</label>
+                        <div>
+                            {{ obj.cp }}
+                        </div>
+                    </div>
+                </div>
+                <br> 
+                
+                <div class="row mb-12">
+                    <div class="col-3">
+                        <label>Calle y No.</label>
+                        <div>
+                            {{ obj.calle_no }}
+                        </div>
+                    </div> 
+                    
+                    <div class="col-3">
+                        <label>Colonia</label>
+                        <div>
+                            {{ obj.colonia }}
+                        </div>
+                    </div> 
+
+                    <div class="col-3">
+                        <label>Ciudad</label>
+                        <div>
+                            {{ obj.ciudad }}
+                        </div>
+                    </div> 
+
+                    <div class="col-3">
+                        <label>Estado</label>
+                        <div>
+                            {{ obj.estado }}
+                        </div>
+                    </div> 
+                </div>
+                <br> 
+
+                <div class="row mb-12">
+                    <div class="col-3">
+                        <label>Crédito</label>
+                        <div>
+                            {{ obj.credito }}
+                        </div>
+                    </div> 
+                </div>
+
+            </div>             
+            
+        </div>
+
+        <div class="modal-footer">
+            <div ALIGN="right">
+                <div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

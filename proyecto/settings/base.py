@@ -58,10 +58,12 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    # 'applications.users',
-    # 'applications.home',
-    # 'applications.medicos',
-    # 'applications.pacientes',
+    'applications.home',
+    'applications.users',
+    'applications.empresa',  
+    'applications.clientes',  
+
+    # 'applications.medicos',    
     # 'applications.expedientes',    
     # 'applications.citas',
     # 'applications.asistentes',
@@ -69,11 +71,9 @@ LOCAL_APPS = [
     # 'applications.servicios',
     # 'applications.medicamentos',
     # 'applications.presupuestos',
-    # 'applications.recetas',
-    # 'applications.clinica',
+    # 'applications.recetas',    
     # 'applications.consentimiento',
     # 'applications.mantto',
-    
 ]
 
 THIRD_PARTY_APPS = [
@@ -149,7 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
 #****************************************************************************
 # INDICAMOS QUE ESTA CONFIGURACION SE HARA CARGO DE LOS USUARIOS DEL SISTEMA
 #****************************************************************************
-#AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
 
 
@@ -184,10 +184,10 @@ SESSION_TIMEOUT_REDIRECT = 'users_app:login'
 
 #PARA PROGRAMACION DE TAREAS
 #UTILIZANDO CRON
-CRON_CLASSES = [
-    'applications.pacientes.cron.EnviarFelicitacionCumpleanos',
-    'applications.citas.cron.EnviarRecordatorioCita',
-]
+# CRON_CLASSES = [
+#     'applications.pacientes.cron.EnviarFelicitacionCumpleanos',
+#     'applications.citas.cron.EnviarRecordatorioCita',
+# ]
 
 
 #TOKEN TWILIO PARA WHATSAPP

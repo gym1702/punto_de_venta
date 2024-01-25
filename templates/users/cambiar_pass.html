@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dental | RGR</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+</head>
+<br>
+
+<body class="hold-transition login-page">
+
+    <br>
+
+    <div class="card card-outline card-primary">
+        <br>
+        <div class="card-header text-center">
+            <h1 class="h4 text-gray-500 mb-2">Cambiar contraseña</h1>
+            <small class="text-danger">
+                {% if form.errors %}
+                {% for field in form %}
+                {% if field.errors %}
+                {% for error in field.errors %}
+                {{ error | escape}}
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                {{ error | escape}}
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+            </small>
+        </div>
+
+        <div class="card-body">          
+            <div class="col-md-12">
+                <form class="form-group" method="post">
+
+                    {% csrf_token %}
+                
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Contraseña actual</label>
+                            {{ form.password1 }}
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Contraseña nueva</label>
+                            {{ form.password2 }}
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Confirmar contraseña</label>
+                            {{ form.password3 }}
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="card-footer">
+                        <div ALIGN="center">
+                            <div>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span>
+                                    Guardar
+                                </button>
+            
+                                <a href="{% url 'home_app:inicio' %}" class="btn btn-secondary"><span class="fa fa-undo"></span> 
+                                    Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+</body>
+
+</html>
+
+
+

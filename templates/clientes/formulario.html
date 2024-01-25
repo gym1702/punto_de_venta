@@ -1,0 +1,320 @@
+<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+
+        <!-- loader -->
+        <div class="page-loader-overlay">
+            <div class="page-loader"></div>
+            <div class="loader-text">Espere por favor ...</div>
+        </div>
+        <!-- fin loader -->
+
+        <div id="page-loader">
+        </div>
+
+
+        <div class="modal-header">
+            <h3 class="modal-title text-secondary">
+                {% if obj %} Editar {% else %} Nuevo {% endif %} cliente
+            </h3>
+
+            {% include 'base/alertas.html' %}
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            {% if obj %}
+            <form method="post" id="frmModal" role="form" class="form" action="{% url 'clientes_app:cliente_editar' obj.pk %}"
+                enctype="multipart/form-data">
+                {% else %}
+                <form method="post"  id="frmModal" role="form" class="form" action="{% url 'clientes_app:cliente_crear' %}"
+                    enctype="multipart/form-data">
+                    {% endif %}
+
+                    {% csrf_token %} 
+
+                        <!-- <div class="col-12 text-secondary" align="right">
+                            <label style="font-size: small;">* Campos obligatorios</label>
+                        </div>
+                        <br> -->
+
+                        <div class="row"> 
+                            <div class="col-9">
+                            </div>
+
+                            <div class="col-3">
+                                <label for="razon_social">Crédito</label>
+                                <div>
+                                    {{ form.credito }}
+                                </div>
+                            </div> 
+                        </div>
+                        <br>
+
+                        <div class="row"> 
+                            <div class="col-6">
+                                <label for="razon_social">Razón Social</label>
+                                <div>
+                                    <input class="form-control" type="text" name="razon_social" id="razon_social"  onkeyup="mayus(this);" value="{{ obj.razon_social }}" required>
+                                </div>
+                            </div>   
+                            
+                            <div class="col-6">
+                                <label for="rfc">RFC</label>
+                                <div>
+                                    <input class="form-control" type="text" name="rfc" id="rfc" onkeyup="mayus(this);" value="{{ obj.rfc }}" required>
+                                </div>
+                            </div> 
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-3">
+                                <label>Calle y No.</label>
+                                <div>
+                                    {{ form.calle_no }}
+                                </div>
+                            </div>     
+                            
+                            <div class="col-3">
+                                <label>Colonia</label>
+                                <div>
+                                    {{ form.colonia }}
+                                </div>
+                            </div> 
+                            
+                            <div class="col-3">
+                                <label>Ciudad</label>
+                                <div>
+                                    {{ form.ciudad }}
+                                </div>
+                            </div> 
+
+                            <div class="col-3">
+                                <label>Estado</label>
+                                <div>
+                                    {{ form.estado }}
+                                </div>
+                            </div> 
+                        </div>
+                        <br>
+
+                        <div class="row">                              
+                            <div class="col-3">
+                                <label for="telefono">Teléfono</label>
+                                <div>
+                                    <input class="form-control" type="number" name="telefono" id="telefono" value="{{ obj.telefono }}" onblur="validarNumeroTelefono(this.value)" required>
+                                </div>
+                            </div> 
+                            
+                            <div class="col-3">
+                                <label>C.P.</label>
+                                <div>
+                                    <input class="form-control" type="number" name="cp" id="cp" value="{{ obj.cp }}" required>
+                                </div>
+                            </div> 
+
+                            <div class="col-6">
+                                <label for="email">Email</label>
+                                <div>
+                                    <input class="form-control" type="email" name="email" id="email" onkeyup="minus(this);" onblur="validarCorreoElectronico(this.value)" value="{{ obj.email }}" required>
+                                </div>
+                            </div>  
+                        </div>
+                        <br> 
+                            
+                                                    
+                                
+                        <!-- ITEMS CLON PARA VERIFIACR NOMBRE -->
+                        <div class="row mb-12">
+                            <div class="col-12">
+                                <div>
+                                    <input name="clon" id="clon" value="{{ obj.razon_social }}" hidden> 
+                                </div>
+                            </div>                      
+                        </div>
+                        <br> 
+
+                        <div class="row mb-12">
+                            <div class="col-12">
+                                <div>
+                                    <input name="clon2" id="clon2" value="{{ obj.rfc }}" hidden> 
+                                </div>
+                            </div>                      
+                        </div>
+                        <!--  -->
+
+                        <div class="modal-footer">
+                            <div ALIGN="right">
+                                <div>
+                                    <button type="submit" class="btn btn-primary">
+                                        Guardar
+                                    </button>
+                    
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+        
+
+                    </div>                    
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    // Hacer el modal arrastrable
+    $(document).ready(function() {        
+        $('#frmModal').draggable({
+            handle: ".modal-dialog"
+        });
+    });
+    
+
+    //convierte texto a mayusculas
+    function mayus(e) {
+        e.value = e.value.toUpperCase();
+    }
+
+    //convierte texto a minusculas
+    function minus(e) {
+        e.value = e.value.toLowerCase();
+    }
+
+
+    // LOGICA PARA EVITAR DUPLICAR NOMBRE
+    // Requiere de un input oculto con el id clon con value del mismo valor del nombre
+    $('#razon_social').blur(function(){
+        var nombre = $('#razon_social').val();
+        var clon = $('#clon').val() 
+
+        if (nombre !== clon){
+            verificarExiste();
+        }        
+    });
+
+    function verificarExiste() {
+        var nombre = $('#razon_social').val();
+        var clon = $('#clon').val()
+
+        // Realiza una solicitud AJAX para verificar si el nombre ya existe
+        // Requiere una funcion def (verificar_cliente_existe) expreada en views.py
+        $.ajax({
+        type: 'GET', 
+        url: '/verificar_cliente_existe/',
+        data: { razon_social: nombre }, // {id_input: variable}
+        success: function (data) {
+            if (data.existe) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atención',
+                text: 'La Razón social '+  nombre +' ya existe en la base de datos.',
+            });
+
+            $('#razon_social').val(clon)
+            
+            }
+            // Puedes agregar lógica adicional aquí si es necesario
+        },
+        error: function (error) {
+            console.log('Error al verificar el nombre:', error);
+        }
+        });
+    };
+
+
+    // LOGICA PARA EVITAR DUPLICAR RFC
+    $('#rfc').blur(function(){
+        var codigo = $('#rfc').val();
+        var clon2 = $('#clon2').val() 
+
+        if (codigo !== clon2){
+            verificarExisteCodigo();
+        }        
+    });
+
+    function verificarExisteCodigo() {
+        var codigo = $('#rfc').val();
+        var clon2 = $('#clon2').val() 
+
+        // Realiza una solicitud AJAX para verificar si el nombre ya existe
+        // Requiere una funcion def (verificar_rfc_cliente_existe) expreada en views.py
+        $.ajax({
+        type: 'GET', 
+        url: '/verificar_rfc_cliente_existe/',
+        data: { rfc: codigo }, // {id_input: variable}
+        success: function (data) {
+            if (data.existe2) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atención',
+                text: 'El RFC: '+  codigo +' ya existe en la base de datos.',
+            });
+
+            $('#rfc').val(clon2)
+
+            }
+            // Puedes agregar lógica adicional aquí si es necesario
+        },
+        error: function (error) {
+            console.log('Error al verificar el codigo:', error);
+        }
+        });
+    };
+
+
+    //VALIDA LA ESTRUCTURA DEL CORREO ELECTRONICO
+    function validarCorreoElectronico(email) {
+      // Expresión regular para validar la estructura de un correo electrónico
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Verifica si el correo electrónico tiene la estructura correcta
+      if (emailRegex.test(email)) {
+        // Correo electrónico válido
+        console.log("Correo electrónico válido");
+      } else {
+        // Muestra un mensaje de SweetAlert si el correo electrónico no es válido
+        Swal.fire({
+          icon: 'warning',
+          title: 'Atención',
+          text: 'Ingrese un correo electrónico válido con formato: ejemplo@dominio.com',
+        });
+        // Limpia el campo de correo electrónico
+        //document.getElementById('email').value = "";
+        //document.getElementById('email').focus();
+      }
+    }
+
+
+    //VALIDA QUE TELEFONO SOLO TENGA 10 DIGITOS
+    function validarNumeroTelefono(numeroTelefono) {
+      // Expresión regular para validar que el número de teléfono tenga 10 dígitos
+      var telefonoRegex = /^\d{10}$/;
+
+      // Verifica si el número de teléfono tiene la estructura correcta
+      if (telefonoRegex.test(numeroTelefono)) {
+        // Número de teléfono válido
+        console.log("Número de teléfono válido");
+      } else {
+        // Muestra un mensaje de SweetAlert si el número de teléfono no es válido
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ingrese un número de teléfono válido (10 dígitos)',
+        });
+        // Limpia el campo de número de teléfono
+        //document.getElementById('telefono').value = '';
+      }
+    }
+    
+
+</script>
+    

@@ -10,10 +10,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>dentalzac | administracion </title>
+  <title>{{empresa.nombre_corto}} | administracion </title>
 
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/png" href="/media/logos/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="/media/logos/logo2.png">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -98,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Brand Logo -->
       <a href="{% url 'home_app:inicio' %}" class="brand-link">
         <img src="/media/logos/logo2.png" alt="Logo" class="brand-image">
-        <span class="brand-text font-weight-light">dentalzac</span>
+        <span class="brand-text font-weight-light"><b>{{empresa.nombre_corto}}</b></span>
       </a>
 
       <!-- Sidebar -->
@@ -135,11 +135,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
-              {% if perms.pacientes %}
-              <a href="{% url 'pacientes_app:paciente_listar' %}" class="nav-link">
+              {% if perms.clientes %}
+              <a href="{% url 'clientes_app:clientes_listar' %}" class="nav-link">
                 <i class="nav-icon fa fa-users" style="color: rgb(146, 194, 213); font-size:x-large;"></i>
                 <p>
-                  &nbsp;Pacientes
+                  &nbsp;Clientes
                 </p>
               </a>
               {% endif %}
@@ -160,7 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   {% if perms.expedientes.view_hgenral %}
-                  <a href="{% url 'expedientes_app:hcg_listar' %}" class="nav-link">
+                  <a href="{#% url 'expedientes_app:hcg_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-file-lines nav-icon"></i>
                     <p>Historia Clinica General</p>
                   </a>
@@ -169,7 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.expedientes.view_horto %}
-                  <a href="{% url 'expedientes_app:hco_listar' %}" class="nav-link">
+                  <a href="{#% url 'expedientes_app:hco_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-file-waveform nav-icon"></i>
                     <p>Historia Clinica Orto</p>
                   </a>
@@ -178,7 +178,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.expedientes.view_consulta or perms.presupuestos %}
-                  <a href="{% url 'expedientes_app:consulta_listar' %}" class="nav-link">
+                  <a href="{#% url 'expedientes_app:consulta_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-file-medical nav-icon"></i>
                     <p>Consulta y expediente</p>
                   </a>
@@ -191,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <li class="nav-item">
               {% if perms.expedientes %}
-              <a href="{% url 'recetas_app:receta_listar' %}" class="nav-link">
+              <a href="{#% url 'recetas_app:receta_listar' %#}" class="nav-link">
                 <i class="nav-icon fa fa-list-alt" style="color: rgb(187, 165, 222); font-size:x-large;"></i>
                 <p>
                   Recetas
@@ -227,7 +227,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   {% if perms.pacientes %}
-                  <a href="{% url 'citas_app:ver_calendario' %}" class="nav-link">
+                  <a href="{#% url 'citas_app:ver_calendario' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar nav-icon"></i>
                     <p>Calendario</p>
                   </a>
@@ -236,7 +236,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.pacientes %}
-                  <a href="{% url 'citas_app:citas_listar' %}" class="nav-link">
+                  <a href="{#% url 'citas_app:citas_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-plus nav-icon"></i>
                     <p>Listar/Agendar/Cancelar</p>
                   </a>
@@ -245,7 +245,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.pacientes %}
-                  <a href="{% url 'citas_app:citasRevision_listar' %}" class="nav-link">
+                  <a href="{#% url 'citas_app:citasRevision_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-plus nav-icon"></i>
                     <p>Cita de revision</p>
                   </a>
@@ -270,7 +270,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   {% if perms.consentimiento %}
-                  <a href="{% url 'consentimientos_app:consentimiento_listar' %}" class="nav-link">
+                  <a href="{#% url 'consentimientos_app:consentimiento_listar' %#}" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <p>
                       Tipos
@@ -281,7 +281,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.consentimiento.view_emitirconsentimiento %}
-                  <a href="{% url 'consentimientos_app:emitir_listar' %}" class="nav-link">
+                  <a href="{#% url 'consentimientos_app:emitir_listar' %#}" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <p>
                       Emitir consentimiento
@@ -295,7 +295,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <li class="nav-item">
               {% if perms.consentimiento.view_emitirconsentimiento %}
-              <a href="{% url 'consentimientos_app:emitir_listar' %}" class="nav-link">
+              <a href="{#% url 'consentimientos_app:emitir_listar' %#}" class="nav-link">
                 <i class="nav-icon fa fa-file" style="color: rgb(220, 168, 156); font-size:x-large;"></i>
                 <p>
                   Emitir consentimiento
@@ -307,7 +307,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!-- <li class="nav-item">
               {% if perms.consentimiento.view_emitirconsentimiento %}
-              <a onclick="abrir_modal('{% url 'consentimientos_app:emitir_crear' %}')" class="nav-link">
+              <a onclick="abrir_modal('{#% url 'consentimientos_app:emitir_crear' %#}')" class="nav-link">
                 <i class="nav-icon fa fa-file"></i>
                 <p>
                   Emitir consentimiento
@@ -332,7 +332,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   {% if perms.presupuestos.view_presupuesto %}
-                  <a href="{% url 'presupuestos_app:presupuesto_listar' %}" class="nav-link">
+                  <a href="{#% url 'presupuestos_app:presupuesto_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-list nav-icon"></i>
                     <p>Listar/Agendar/Cancelar</p>
                   </a>
@@ -341,7 +341,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.presupuestos.view_pago %}
-                  <a href="{% url 'presupuestos_app:pagos_listar' %}" class="nav-link">
+                  <a href="{#% url 'presupuestos_app:pagos_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-usd nav-icon"></i>
                     <p>Estados de cuenta</p>
                   </a>
@@ -367,7 +367,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.servicios.view_servicio %}
-                  <a href="{% url 'servicios_app:servicio_listar' %}" class="nav-link">
+                  <a href="{#% url 'servicios_app:servicio_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-tooth nav-icon"></i>
                     <p>Servicios</p>
                   </a>
@@ -376,7 +376,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.medicamentos.view_medicamento %}
-                  <a href="{% url 'medicamentos_app:medicamento_listar' %}" class="nav-link">
+                  <a href="{#% url 'medicamentos_app:medicamento_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-pills nav-icon"></i>
                     <p>Medicamentos</p>
                   </a>
@@ -385,7 +385,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.consentimiento or perms.medicos or perms.asistentes or perms.secretarias %}
-                  <a href="{% url 'consentimientos_app:consentimiento_listar' %}" class="nav-link">
+                  <a href="{#% url 'consentimientos_app:consentimiento_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="nav-icon fa fa-list"></i>
                     <p>
                       Consentimientos
@@ -426,7 +426,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     <li class="nav-item">
                       {% if perms.medicos.view_medico %}
-                      <a href="{% url 'medicos_app:medico_listar' %}" class="nav-link">
+                      <a href="{#% url 'medicos_app:medico_listar' %#}" class="nav-link">
                         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-md nav-icon"></i>
                         <p> Listar/Crear</p>
                       </a>
@@ -435,7 +435,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     <li class="nav-item">
                       {% if perms.medicos.view_medico %}
-                      <a href="{% url 'medicos_app:horario_listar' %}" class="nav-link">
+                      <a href="{#% url 'medicos_app:horario_listar' %#}" class="nav-link">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-clock nav-icon"></i>
                         <p> Horarios</p>
                       </a>
@@ -444,7 +444,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     <li class="nav-item">
                       {% if perms.medicos.view_medico %}
-                      <a href="{% url 'medicos_app:festivo_listar' %}" class="nav-link">
+                      <a href="{#% url 'medicos_app:festivo_listar' %#}" class="nav-link">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar nav-icon"></i>
                         <p> Dias inhábiles</p>
                       </a>
@@ -455,7 +455,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.asistentes.view_asistente %}
-                  <a href="{% url 'asistentes_app:asistente_listar' %}" class="nav-link">
+                  <a href="{#% url 'asistentes_app:asistente_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-user-nurse nav-icon"></i>
                     <p> Asistentes</p>
                   </a>
@@ -464,7 +464,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <li class="nav-item">
                   {% if perms.secretarias.view_secretaria %}
-                  <a href="{% url 'secretarias_app:secretaria_listar' %}" class="nav-link">
+                  <a href="{#% url 'secretarias_app:secretaria_listar' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-user nav-icon"></i>
                     <p> Secretarias</p>
                   </a>
@@ -473,7 +473,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- <li class="nav-item">
                   {% if perms.clinicas %}
-                  <a href="{% url 'clinica_app:clinica_listar' %}" class="nav-link">
+                  <a href="{#% url 'clinica_app:clinica_listar' %#}" class="nav-link">
                     <i class="fa fa-house-chimney-medical nav-icon"></i>
                     <p>
                       Datos de Clinica
@@ -488,11 +488,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!--CLINICA -->
             <li class="nav-item">
-              {% if perms.clinicas %}
+              {% if perms.empresa %}
               <a href="#" class="nav-link">
                 <i class="fa fa-gear nav-icon" style="color: rgb(164, 197, 221); font-size:x-large;"></i>
                 <p>
-                  Configuraciones
+                  Configurar
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
@@ -501,17 +501,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <ul class="nav nav-treeview">
 
                 <li class="nav-item">
-                  {% if perms.clinicas %}
-                  <a href="{% url 'clinica_app:clinica_listar' %}" class="nav-link">
+                  {% if perms.empresa %}
+                  <a href="{% url 'empresa_app:empresa_listar' %}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-house-chimney-medical nav-icon"></i>
-                    <p>Clinica</p>
+                    <p>Empresa</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.Usuario %}
+                  <a href="{% url 'users_app:usuarios_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-users nav-icon"></i>
+                    <p>Usuarios</p>
                   </a>
                   {% endif %}
                 </li>
 
                 <li class="nav-item">
                   {% if perms.clinicas %}
-                  <a href="{% url 'mantto_app:acciones' %}" class="nav-link">
+                  <a href="{#% url 'mantto_app:acciones' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-database nav-icon"></i>
                     <p>Mantenimiento</p>
                   </a>
@@ -524,7 +533,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!-- <li class="nav-item">
               {% if perms.clinicas %}
-                <a href="{% url 'clinica_app:clinica_listar' %}" class="nav-link">
+                <a href="{#% url 'clinica_app:clinica_listar' %#}" class="nav-link">
                   <i class="fa fa-house-chimney-medical nav-icon" style="color: rgb(164, 197, 221); font-size:x-large;"></i>
                   <p>
                     Datos de Clinica
@@ -747,7 +756,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          location.replace("{#% url 'users_app:logout' %#}")
+          location.replace("{% url 'users_app:logout' %}")
         }
       })
     })
@@ -767,7 +776,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          location.replace("{#% url 'users_app:logout' %#}")
+          location.replace("{% url 'users_app:logout' %}")
         }
       })
     })
