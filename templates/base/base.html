@@ -353,7 +353,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
             <li class="nav-item">
-              {% if perms.servicios or perms.medicamentos %}
+              {#% if perms.servicios or perms.medicamentos %#}
               <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-layer-group" style="color: rgb(176, 221, 164); font-size:x-large;"></i>
                 <p>
@@ -361,15 +361,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              {% endif %}
+              {#% endif %#}
 
               <ul class="nav nav-treeview">
 
                 <li class="nav-item">
-                  {% if perms.servicios.view_servicio %}
-                  <a href="{#% url 'servicios_app:servicio_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-tooth nav-icon"></i>
-                    <p>Servicios</p>
+                  {% if perms.categorias.view_categoria %}
+                  <a href="{% url 'categorias_app:categorias_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-cubes nav-icon"></i>
+                    <p>Categorias</p>
                   </a>
                   {% endif %}
                 </li>

@@ -111,6 +111,9 @@ def cliente_eliminar(request, pk):
         return HttpResponse('OK')
     
 
+    
+    
+
 
 
     
