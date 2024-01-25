@@ -31,6 +31,10 @@ urlpatterns = [
     re_path('', include('applications.empresa.urls')), 
     re_path('', include('applications.clientes.urls')),
     re_path('', include('applications.categorias.urls')),
+    re_path('', include('applications.marcas.urls')),
+    re_path('', include('applications.proveedores.urls')),
+    re_path('', include('applications.productos.urls')),
+
     
     # re_path('', include('applications.medicos.urls')),
     

@@ -62,7 +62,10 @@ LOCAL_APPS = [
     'applications.users',
     'applications.empresa',  
     'applications.clientes', 
-    'applications.categorias', 
+    'applications.categorias',
+    'applications.marcas',
+    'applications.proveedores',
+    'applications.productos', 
 
     # 'applications.medicos',    
     # 'applications.expedientes',    

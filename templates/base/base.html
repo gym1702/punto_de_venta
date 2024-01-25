@@ -375,21 +375,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </li>
 
                 <li class="nav-item">
-                  {% if perms.medicamentos.view_medicamento %}
-                  <a href="{#% url 'medicamentos_app:medicamento_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-pills nav-icon"></i>
-                    <p>Medicamentos</p>
+                  {% if perms.marcas.view_marca %}
+                  <a href="{% url 'marcas_app:marcas_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-bars nav-icon"></i>
+                    <p>Marcas</p>
                   </a>
                   {% endif %}
                 </li>
 
                 <li class="nav-item">
-                  {% if perms.consentimiento or perms.medicos or perms.asistentes or perms.secretarias %}
-                  <a href="{#% url 'consentimientos_app:consentimiento_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="nav-icon fa fa-list"></i>
-                    <p>
-                      Consentimientos
-                    </p>
+                  {% if perms.proveedores.view_proveedor %}
+                  <a href="{% url 'proveedores_app:proveedores_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-truck nav-icon"></i>
+                    <p>Proveedores</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if perms.producto.view_producto %}
+                  <a href="{% url 'productos_app:productos_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="nav-icon fa fa-star"></i>
+                    <p>Productos</p>
                   </a>
                   {% endif %}
                 </li>
@@ -613,7 +620,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {% block footer %}
     <footer class="main-footer">
       <div class="float-right d-none d-sm-inline">
-        <strong>dentalzac</strong> - {{request.user.full_name}}
+        <strong>{{empresa.nombre_corto}}</strong> - {{request.user.full_name}}
       </div>
 
       <a href="https://web.glsoft.com.mx" target="_blank">

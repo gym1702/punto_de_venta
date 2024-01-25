@@ -1,0 +1,192 @@
+{% load humanize %}
+
+<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+
+        
+        <div class="modal-header">
+            <h3 class="modal-title text-secondary">
+                Detalles del producto
+            </h3>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">                        
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-12 text-center">
+                                <div class="col-12">
+                                    <label>Imagenes</label>
+                                    <div>
+                                        <img src="{{ obj.imagenes.url }}" alt="Imágen del producto" width="400px">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                            
+                <div class="col-6">  
+
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="nombre">Nombre</label>
+                            <div>
+                                <h4>{{ obj.nombre }}</h4>
+                            </div>
+                        </div>                                                               
+                    </div>
+                    <br> 
+
+                    <div class="row mb-12">
+                        <div class="col-12">
+                            <label for="nombre">Código</label>
+                            <div>
+                                {{ obj.codigo }}
+                            </div>
+                        </div>                                                               
+                    </div>
+                    <br> 
+                    
+                    <div class="row mb-12">
+                        <div class="col-12">
+                            <label>Descripción</label>
+                            <div>
+                                {{ obj.descripcion }}
+                            </div>
+                        </div>                      
+                    </div>
+                    <br> 
+
+                    <div class="row mb-12">
+                        <div class="col-4">
+                            <label>Precio de venta</label>
+                            <div>
+                                ${{ obj.precio_venta | floatformat:2 | intcomma }}
+                            </div>
+                        </div>  
+                        
+                        <div class="col-4">
+                            <label>Stock</label>
+                            <div>
+                                {{ obj.stock }} Pza.
+                            </div>
+                        </div> 
+
+                        <div class="col-4">
+                            <label>Activo</label>
+                            <div>
+                                {% if obj.habilitado %}
+                                    Si
+                                {% else %}
+                                    No
+                                {% endif %}
+                            </div>
+                        </div> 
+                    </div>
+                    <br> 
+
+                    <div class="row mb-12">
+                        <div class="col-4">
+                            <label>Categoría</label>
+                            <div>
+                                {{ obj.categoria }}
+                            </div>
+                        </div>  
+
+                        <div class="col-4">
+                            <label>Marca</label>
+                            <div>
+                                {{ obj.marca }}
+                            </div>
+                        </div>  
+
+                        <div class="col-4">
+                            <label>Proveedor</label>
+                            <div>
+                                {{ obj.proveedor }}
+                            </div>
+                        </div>  
+
+                    </div>
+                    <br>     
+                    
+                    <div class="row mb-12">
+                        <div class="col-4">
+                            <label>Categoría</label>
+                            <div>
+                                {{ obj.categoria }}
+                            </div>
+                        </div>  
+
+                        <div class="col-4">
+                            <label>Fecha creación</label>
+                            <div>
+                                {{ obj.fecha_creacion | date:"d-M-Y" }}
+                            </div>
+                        </div>  
+
+                        <div class="col-4">
+                            <label>Última edición</label>
+                            <div>
+                                {{ obj.fecha_modificacion | date:"d-M-Y - H:i:s" }}
+                            </div>
+                        </div>  
+
+                    </div>
+                    <br>        
+
+                </div>             
+            </div>
+
+
+            <div>
+                <h3 class="text-muted text-center">Ventas de los últimos 30 dias</h3>
+
+                <table id="tbl" class="table table-bordered table-striped">
+                    <thead>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Ventas</th>
+                    </thead>
+                    <tbody>
+                        {% for item in ventas_mes %}
+                        <tr>
+                            <td>{{item.venta__fecha | date:'d/m/Y'}}</td>
+                            <td>{{item.producto__nombre}}</td>
+                            <td>{{item.cantidad_vendida | floatformat:0 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+        <div class="modal-footer">
+            <div ALIGN="right">
+                <div>
+
+                    <a target="_blank" href="{% url 'productos_app:producto_detalle_print' obj.id %}" class="btn btn-info">
+                        Imprimir
+                    </a>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cerrar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

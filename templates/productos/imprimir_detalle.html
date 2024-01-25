@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .table {
+      border-collapse: separate;
+    }
+    .tr {
+      border: 2px solid #424242;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h3>{{ product.nombre }}</h3>
+  <div>
+    <table>
+      <tbody>
+        <tr>
+          <td>Codigo de Barras:</td><td>{{ product.codigo }}</td>
+          <td>Proveedor:</td><td>{{ product.proveedor }}</td>
+        </tr>
+        <tr>
+          <td>Marca:</td><td>{{ product.marca }}</td>
+          <td>Vencimiento:</td><td>{{ product.fecha_vencimiento | date:'d/m/Y'}}</td>
+        </tr>
+        <tr>
+          <td>Stock:</td><td>{{ product.stock }}</td>
+          <td>Cantidad total vedida:</td><td>{{ product.no_ventas }}</td>
+        </tr>due_date
+        <tr>
+          <td>Precio Venta::</td><td>{{ product.precio_venta }}</td>
+          <td>Precio Compra:</td><td>{{ product.precio_compra }}</td>
+        </tr>
+        <tr>
+          <td>Descripcion:</td><td>{{ product.descripcion }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>Cantidad de ventas ultimos 30 dias</h3>
+  </div>
+  <table class="table">
+    <thead>
+        <th>Fecha</th>
+        <th>Producto</th>
+        <th>Ventas</th>
+    </thead>
+    <tbody>
+        {% for ventas in ventas_mes %}
+        <tr class="tr">
+            <td>{{ ventas.venta__fecha | date:'d/m/Y'}}</td>
+            <td>{{ ventas.producto__nombre }}</td>
+            <td>{{ ventas.cantidad_vendida }}</td>
+        </tr>
+        {% empty %}
+          <p>No hay ventas para este producto</p>
+        {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
