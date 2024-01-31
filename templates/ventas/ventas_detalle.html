@@ -1,0 +1,302 @@
+{% load humanize %}
+
+<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+
+        
+        <div class="modal-header">
+            <h3 class="modal-title text-secondary">
+                Detalles de la venta no. {{obj.id}}
+            </h3>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">                        
+
+            <!-- <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-12 text-center">
+                            <div class="col-12">
+                                <label>Imagenes</label>
+                                <div>
+                                    <img src="{{ obj.imagenes.url }}" alt="Imágen del producto" width="400px">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div> -->
+                            
+            <div class="col-12 ">  
+                <div class="row">
+                    <div class="col-4">
+                        <label for="nombre">Venta No.</label>
+                        <div>
+                            <h4>{{ obj.id }}</h4>
+                        </div>
+                    </div>  
+
+                    <div class="col-4">
+
+                    </div>
+                    
+                    <div class="col-4" align="right">
+                        <label>Vendedor</label>
+                        <div>
+                            {{ venta.usuario }}
+                        </div>
+                    </div> 
+                </div>
+                <br> 
+
+                <div class="row mb-12">
+                    <div class="col-3">
+                        <label for="nombre">Fecha de venta</label>
+                        <div>
+                            {{ venta.fecha | date:'d-m-Y' }}
+                        </div>
+                    </div>  
+                    
+                    <div class="col-3">
+                        <label for="nombre">Hora de venta</label>
+                        <div>
+                            {{ venta.fecha | date:'H:i:s' }} hrs.
+                        </div>
+                    </div>  
+
+                    <div class="col-3">
+                        <label for="nombre">Tipo de venta</label>
+                        <div>
+                            {{ venta.tipo_venta }}
+                        </div>
+                    </div>
+                    
+                    <div class="col-3">
+                        <label for="nombre">Metodo de pago</label>
+                        <div>
+                            {{ venta.metodo_pago }}
+                        </div>
+                    </div>  
+                </div>
+                <br> 
+                             
+            </div>
+        </div> 
+
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <h4 class="text-muted text-center">Detalles de la venta</h4>
+                </div>
+
+                <table id="tbl" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            <th>Descuento</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in detalle_venta %}
+                        <tr>
+                            <td>{{ item.cantidad }} {{item.producto.unidad}}</td>
+                            <td>{{ item.producto }}</td>
+                            <td>${{ item.precio_venta | floatformat:2 | intcomma }}</td>
+                            <td>${{ item.subtotal | floatformat:2 | intcomma  }}</td>
+                            <td>${{ item.descuento | floatformat:2 | intcomma }}</td>
+                            <td>${{ item.total | floatformat:2 | intcomma  }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br>
+
+                <!-- Totales -->
+                <div ALIGN="right">
+                    <h4><b>Subtotal $: {{ venta.subtotal | floatformat:2 | intcomma}}</b></h4>
+                </div>                
+                <!-- <div ALIGN="right">
+                    <h4 class=""><b>Descuento $: {{ venta.descuento| floatformat:2 | intcomma }}</b></h4>
+                </div> -->
+                <div ALIGN="right" >
+                    <h4><b>IVA $: {{ venta.iva | floatformat:2 | intcomma}}</b></h4>
+                </div>
+                <div ALIGN="right" >
+                    <h3><b>Total $: {{ venta.monto_iva| floatformat:2 | intcomma}}</b></h3>
+                </div>
+
+                <!-- Observaciones -->
+                <font style="font-size:12px;">Observaciones:</font>
+                <br>                
+                <div class="col-12" ALIGN="left">
+                    {{ enc.observaciones }}
+                </div>
+
+                <div class="modal-footer">
+                    <div ALIGN="right">
+                        <div>
+
+                            <a target="_blank" href="{% url 'productos_app:producto_detalle_print' obj.id %}" class="btn btn-info">
+                                Imprimir
+                            </a>
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Cerrar
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+     // Hacer el modal arrastrable
+     $(document).ready(function() {        
+        $('#frmModal').draggable({
+            handle: ".modal-dialog"
+        });
+    });
+
+
+    //INICIALIZAR DATATABLE
+    $("#tbl").DataTable({
+        "responsive": true, 
+        "lengthChange": false, 
+        "autoWidth": false, 
+        "searching": false,
+        "paginate": false,
+        "info": false,
+
+        "language": {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": [
+            // {
+            //     extend: 'excelHtml5',
+            //     text: '<i class="fas fa-file-excel"></i>',
+            //     titleAttr: 'Exportar a Excel',
+            //     className: 'btn btn-success',
+            //     title:     'Listado de productos',
+            //     exportOptions: {
+            //         columns: [0,2,3,4,5,6]
+            //     }
+            // },
+            // {
+            //     extend: 'pdfHtml5',
+            //     text: '<i class="fas fa-file-pdf"></i>',
+            //     titleAttr: 'Exportar a PDF',
+            //     className: 'btn btn-danger',
+            //     title:     'Listado de productos',
+            //     exportOptions: {
+            //         columns: [0,2,3,4,5,6]
+            //     }
+            // },
+            // {
+            //     extend: 'print',
+            //     text: '<i class="fas fa-print"></i>',
+            //     titleAttr: 'Imprimir',
+            //     className: 'btn btn-info',
+            //     title:     'Listado de productos',
+            //     exportOptions: {
+            //         columns: [0,2,3,4,5,6]
+            //     }
+            // },
+            // {
+            //     extend: 'colvis',
+            //     text: '<i class="fas fa-table"></i>',
+            //     titleAttr: 'Mostar/ocultar campos',
+            //     className: 'btn btn-secondary'
+            // },
+
+        ]
+    }).buttons().container().appendTo('#tbl_wrapper .col-md-6:eq(0)');
+
+
+    
+    //MENSAJE BORRAR 
+    function borrarProducto(desc, url){
+      Swal.fire({
+        title: 'Eliminar',
+        text: `¿Se eliminará el producto ${desc}, realmente desea hacerlo?`,
+        icon: 'question',
+        // timer: 10000,
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        allowOutsideClick: false,
+        confirmButtonClass: 'btn btn-danger',
+      }).then((eliminar) => {
+        console.log(eliminar)
+        if (eliminar.isConfirmed){
+          var token = '{{csrf_token}}'
+          $.ajax({
+            headers: {'X-CSRFToken': token},
+            type: 'POST',
+            url: url,
+            success: function(r){
+              if(r==='OK'){
+                Swal.fire({
+                  title: '',
+                  text: 'La eliminación del producto se realizo con éxito',
+                  icon: 'success',
+                  timer: 3500,
+                  position: 'center',
+                })
+                actualizarpagina()
+              }else{
+                Swal.fire({
+                  title: 'Error inesperado',
+                  text: 'Se produjo un error al tratar de eliminar el producto' + r,
+                  icon: 'info',
+                  timer: 1200,
+                })
+              }
+            },
+            error: function(jqXHR, textStatus, errorThrow){
+              Swal.fire(errorThrow, '', 'red')
+            }
+          })
+        }
+      })
+    }
+
+
+
+
+</script>
+

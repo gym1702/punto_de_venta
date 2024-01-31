@@ -66,6 +66,7 @@ LOCAL_APPS = [
     'applications.marcas',
     'applications.proveedores',
     'applications.productos', 
+    'applications.ventas',
 
     # 'applications.medicos',    
     # 'applications.expedientes',    
@@ -84,7 +85,7 @@ THIRD_PARTY_APPS = [
     #'fontawesomefree',
     #'django_extensions',
     #'import_export',
-    #'sweetify',
+    'sweetify',
     #'scheduler',
     #'smart_selects',
     #'rest_framework',
@@ -93,6 +94,7 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
+#SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
 
 #AGREGAR ESTA VARIABLE PARA ARCHIVOS ESTATICOS EN PRODUCCION
 # STATICFILES_FINDERS = [
@@ -130,6 +132,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'proyecto.wsgi.application'
 

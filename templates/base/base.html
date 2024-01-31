@@ -1,5 +1,6 @@
 {% load static %}
 
+{% load sweetify %}
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -46,6 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Full Calendar -->
   <link rel="stylesheet" href="{% static 'plugins/fullcalendar/lib/main.css' %}">
 
+  {% sweetify %}
 
 </head>
 
@@ -113,7 +115,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="info">
             <!-- <div class="text-secondary">Usuario</div>  -->
             <p style="color: rgb(200, 202, 202); font-size:medium;">
-              {{ user.tipo }}
+              {% if user.tipo == None %}
+                Administrador
+              {% else %}
+                {{ user.tipo }}
+              {% endif %}
             </p>
             <!-- <a href="{#% url 'users_app:cambiar_pass' %#}" title="Click para cambiar contraseña" style="color: rgb(200, 202, 202); font-size: small;">
               {{ user.full_name }}
@@ -134,6 +140,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
+            <!-- VENTAS -->
+            <li class="nav-item">
+              {% if perms.ventas %}
+              <a href="{% url 'ventas_app:agregar_carrito' %}" class="nav-link">
+                <i class="nav-icon fa fa-cart-plus" style="color: rgb(213, 169, 146); font-size:x-large;"></i>
+                <p>
+                  &nbsp;Ventas
+                </p>
+              </a>
+              {% endif %}
+            </li>
+
+            <!-- CLIENTES -->
             <li class="nav-item">
               {% if perms.clientes %}
               <a href="{% url 'clientes_app:clientes_listar' %}" class="nav-link">
@@ -143,182 +162,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </p>
               </a>
               {% endif %}
-            </li>
+            </li>         
 
-
-            <li class="nav-item">
-              {% if perms.expedientes or perms.presupuestos %}
-              <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-folder" style="color: rgb(215, 215, 163); font-size:x-large;"></i>
-                <p>
-                  Expedientes
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              {% endif %}
-
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  {% if perms.expedientes.view_hgenral %}
-                  <a href="{#% url 'expedientes_app:hcg_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-file-lines nav-icon"></i>
-                    <p>Historia Clinica General</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-                <li class="nav-item">
-                  {% if perms.expedientes.view_horto %}
-                  <a href="{#% url 'expedientes_app:hco_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-file-waveform nav-icon"></i>
-                    <p>Historia Clinica Orto</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-                <li class="nav-item">
-                  {% if perms.expedientes.view_consulta or perms.presupuestos %}
-                  <a href="{#% url 'expedientes_app:consulta_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-file-medical nav-icon"></i>
-                    <p>Consulta y expediente</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-              </ul>
-            </li>
-
-
-            <li class="nav-item">
-              {% if perms.expedientes %}
-              <a href="{#% url 'recetas_app:receta_listar' %#}" class="nav-link">
-                <i class="nav-icon fa fa-list-alt" style="color: rgb(187, 165, 222); font-size:x-large;"></i>
-                <p>
-                  Recetas
-                </p>
-              </a>
-              {% endif %}
-            </li>
-
-            <!-- CITAS PACIENTES -->
-            <li class="nav-item">
-              {% if not perms.pacientes %}
-              <a href="{#% url 'citas_app:citas_listar' %#}" class="nav-link">
-                <i class="nav-icon fa fa-calendar-days" style="color: rgb(174, 235, 221); font-size:x-large;"></i>
-                <p>
-                  Citas
-                </p>
-              </a>
-              {% endif %}
-            </li>
-
-            <!-- CITAS NO PACIENTES -->
-            <li class="nav-item">
-              {% if perms.pacientes %}
-              <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-calendar-days" style="color: rgb(174, 235, 221); font-size:x-large;"></i>
-                <p>
-                  Citas
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              {% endif %}
-
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  {% if perms.pacientes %}
-                  <a href="{#% url 'citas_app:ver_calendario' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar nav-icon"></i>
-                    <p>Calendario</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-                <li class="nav-item">
-                  {% if perms.pacientes %}
-                  <a href="{#% url 'citas_app:citas_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-plus nav-icon"></i>
-                    <p>Listar/Agendar/Cancelar</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-                <li class="nav-item">
-                  {% if perms.pacientes %}
-                  <a href="{#% url 'citas_app:citasRevision_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-plus nav-icon"></i>
-                    <p>Cita de revision</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-              </ul>
-            </li>
-
-
+            <!-- PRESUPUESTOS -->
             <!-- <li class="nav-item">
-              {% if perms.medicos or perms.asistentes or perms.secretarias %}
-              <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-file"></i>
-                <p>
-                  Consentimientos
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              {% endif %}
-
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  {% if perms.consentimiento %}
-                  <a href="{#% url 'consentimientos_app:consentimiento_listar' %#}" class="nav-link">
-                    <i class="nav-icon fa fa-list"></i>
-                    <p>
-                      Tipos
-                    </p>
-                  </a>
-                  {% endif %}              
-                </li>
-
-                <li class="nav-item">
-                  {% if perms.consentimiento.view_emitirconsentimiento %}
-                  <a href="{#% url 'consentimientos_app:emitir_listar' %#}" class="nav-link">
-                    <i class="nav-icon fa fa-list"></i>
-                    <p>
-                      Emitir consentimiento
-                    </p>
-                  </a>
-                  {% endif %}  
-                </li>
-                
-              </ul>
-            </li> -->
-
-            <li class="nav-item">
-              {% if perms.consentimiento.view_emitirconsentimiento %}
-              <a href="{#% url 'consentimientos_app:emitir_listar' %#}" class="nav-link">
-                <i class="nav-icon fa fa-file" style="color: rgb(220, 168, 156); font-size:x-large;"></i>
-                <p>
-                  Emitir consentimiento
-                </p>
-              </a>
-              {% endif %}
-            </li>
-
-
-            <!-- <li class="nav-item">
-              {% if perms.consentimiento.view_emitirconsentimiento %}
-              <a onclick="abrir_modal('{#% url 'consentimientos_app:emitir_crear' %#}')" class="nav-link">
-                <i class="nav-icon fa fa-file"></i>
-                <p>
-                  Emitir consentimiento
-                </p>
-              </a>
-              {% endif %}  
-            </li> -->
-
-
-
-            <li class="nav-item">
               {% if perms.presupuestos %}
               <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-calculator" style="color: rgb(224, 164, 221); font-size:x-large;"></i>
@@ -349,13 +196,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </li>
 
               </ul>
-            </li>
+            </li> -->
 
 
+            <!-- CATALOGOS -->
             <li class="nav-item">
               {#% if perms.servicios or perms.medicamentos %#}
               <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-layer-group" style="color: rgb(176, 221, 164); font-size:x-large;"></i>
+                <i class="nav-icon fa fa-layer-group" style="color: rgb(202, 164, 221); font-size:x-large;"></i>
                 <p>
                   Catálogos
                   <i class="right fas fa-angle-left"></i>
@@ -405,99 +253,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
 
 
-            <li class="nav-item">
-              {% if perms.medicos or perms.asistentes or perms.secretarias %}
-              <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-user" style="color: rgb(113, 152, 234); font-size:x-large;"></i>
-                <p>
-                  Personal de la clínica
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              {% endif %}
-
-              <ul class="nav nav-treeview">
-
-                <li class="nav-item">
-                  {% if perms.medicos.view_medico %}
-                  <a href="#" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-user-md nav-icon"></i>
-                    <p>
-                      Odontológos
-                      <i class="right fas fa-angle-left"></i>
-                    </p>
-                  </a>
-                  {% endif %}
-
-                  <ul class="nav nav-treeview">
-
-                    <li class="nav-item">
-                      {% if perms.medicos.view_medico %}
-                      <a href="{#% url 'medicos_app:medico_listar' %#}" class="nav-link">
-                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-md nav-icon"></i>
-                        <p> Listar/Crear</p>
-                      </a>
-                      {% endif %}
-                    </li>
-
-                    <li class="nav-item">
-                      {% if perms.medicos.view_medico %}
-                      <a href="{#% url 'medicos_app:horario_listar' %#}" class="nav-link">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-clock nav-icon"></i>
-                        <p> Horarios</p>
-                      </a>
-                      {% endif %}
-                    </li>
-
-                    <li class="nav-item">
-                      {% if perms.medicos.view_medico %}
-                      <a href="{#% url 'medicos_app:festivo_listar' %#}" class="nav-link">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar nav-icon"></i>
-                        <p> Dias inhábiles</p>
-                      </a>
-                      {% endif %}
-                    </li>
-                  </ul>
-                </li>
-
-                <li class="nav-item">
-                  {% if perms.asistentes.view_asistente %}
-                  <a href="{#% url 'asistentes_app:asistente_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-user-nurse nav-icon"></i>
-                    <p> Asistentes</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-                <li class="nav-item">
-                  {% if perms.secretarias.view_secretaria %}
-                  <a href="{#% url 'secretarias_app:secretaria_listar' %#}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-user nav-icon"></i>
-                    <p> Secretarias</p>
-                  </a>
-                  {% endif %}
-                </li>
-
-                <!-- <li class="nav-item">
-                  {% if perms.clinicas %}
-                  <a href="{#% url 'clinica_app:clinica_listar' %#}" class="nav-link">
-                    <i class="fa fa-house-chimney-medical nav-icon"></i>
-                    <p>
-                      Datos de Clinica
-                    </p>
-                  </a>
-                  {% endif %}              
-                </li> -->
-
-              </ul>
-            </li>
-
-
-            <!--CLINICA -->
+            <!--CONFIGURACIONES -->
             <li class="nav-item">
               {% if perms.empresa %}
               <a href="#" class="nav-link">
-                <i class="fa fa-gear nav-icon" style="color: rgb(164, 197, 221); font-size:x-large;"></i>
+                <i class="fa fa-gear nav-icon" style="color: rgb(221, 214, 164); font-size:x-large;"></i>
                 <p>
                   Configurar
                   <i class="right fas fa-angle-left"></i>
@@ -506,15 +266,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
               {% endif %}
 
               <ul class="nav nav-treeview">
-
-                <li class="nav-item">
-                  {% if perms.empresa %}
-                  <a href="{% url 'empresa_app:empresa_listar' %}" class="nav-link">
-                    &nbsp;&nbsp;&nbsp;<i class="fa fa-house-chimney-medical nav-icon"></i>
-                    <p>Empresa</p>
-                  </a>
-                  {% endif %}
-                </li>
 
                 <li class="nav-item">
                   {% if perms.Usuario %}
@@ -526,28 +277,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </li>
 
                 <li class="nav-item">
+                  {% if perms.empresa %}
+                  <a href="{% url 'empresa_app:empresa_listar' %}" class="nav-link">
+                    &nbsp;&nbsp;&nbsp;<i class="fa fa-house-chimney-medical nav-icon"></i>
+                    <p>Empresa</p>
+                  </a>
+                  {% endif %}
+                </li>
+
+                <!-- <li class="nav-item">
                   {% if perms.clinicas %}
                   <a href="{#% url 'mantto_app:acciones' %#}" class="nav-link">
                     &nbsp;&nbsp;&nbsp;<i class="fa fa-database nav-icon"></i>
                     <p>Mantenimiento</p>
                   </a>
                   {% endif %}
-                </li>
+                </li> -->
 
               </ul>
             </li>
-
-
-            <!-- <li class="nav-item">
-              {% if perms.clinicas %}
-                <a href="{#% url 'clinica_app:clinica_listar' %#}" class="nav-link">
-                  <i class="fa fa-house-chimney-medical nav-icon" style="color: rgb(164, 197, 221); font-size:x-large;"></i>
-                  <p>
-                    Datos de Clinica
-                  </p>
-                </a>
-              {% endif %} 
-            </li> -->
 
 
             <!-- SALIR -->
@@ -682,7 +430,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
   <script src="{% static 'plugins/fullcalendar/lib/main.js' %}"></script>
-
 
 
   {% block js %}
@@ -925,12 +672,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
     //PARA MENSAJES SWEETALERT 
-    {% if messages %}
-    {% for message in messages %}
-    console.log('{{ messages.tags }}');
-    mensajesweet('{{ message }}');
-    {% endfor %}
-    {% endif %}
+    // {% if messages %}
+    // {% for message in messages %}
+    // console.log('{{ messages.tags }}');
+    // mensajesweet('{{ message }}');
+    // {% endfor %}
+    // {% endif %}
+
+
+    
 
 
     //PARA MENSAJES SWEETALERT 
@@ -981,13 +731,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
     //MENSAJE CON TOASTR
-    function mansaje(msg, tipo = 'success') {
-      var tst = `toastr.${tipo}('${msg}')`
-      eval(tst)
-    }
+    // function mansaje(msg, tipo = 'success') {
+    //   var tst = `toastr.${tipo}('${msg}')`
+    //   eval(tst)
+    // }
 
   </script>
   {% endblock js %}
+  
 
 
   {% block data_table %}
@@ -1009,6 +760,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   </script>
   {% endblock data_table %}
+
+
 
 
 </body>

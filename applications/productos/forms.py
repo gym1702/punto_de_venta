@@ -8,7 +8,8 @@ class ProductoForm(forms.ModelForm):
         model = Producto
         fields = ('id', 'nombre', 'codigo', 'descripcion', 'precio_compra', 'unidad',
                   'precio_venta', 'imagenes', 'stock', 'categoria', 'marca', 'proveedor', 
-                  'fecha_vencimiento', 'status',)
+                  'fecha_vencimiento', 'status', 'descuento', 'fecha_inicio_descuento', 
+                    'fecha_fin_descuento',)
 
         widgets = {
             'descripcion': forms.Textarea(attrs={'rows':4}),

@@ -10,7 +10,9 @@ from django.http import HttpResponse, JsonResponse
 from .models import Producto
 from .forms import ProductoForm
 
-#from applications.ventas.models import VentaDetalle
+from applications.empresa.models import Empresa
+
+from applications.ventas.models import VentaDetalle
 
 from .utils import render_to_pdf
 
@@ -51,6 +53,14 @@ class ProductoListar(LoginRequiredMixin, generic.ListView):
     template_name = 'productos/listar.html'
     context_object_name = 'obj'
 
+     #UTILIZADO PARA LOGO Y FAVICON
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['empresa'] = Empresa.objects.get()
+
+        return context
+
 
     
 #
@@ -86,14 +96,14 @@ class ProductoDetalle(LoginRequiredMixin, SuccessMessageMixin, generic.DetailVie
     template_name = 'productos/producto_detalle.html'
     context_object_name = 'obj'
 
-    # def get_context_data(self, **kwargs):
-    #     context  = super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context  = super().get_context_data(**kwargs)
 
-    #     context["ventas_mes"] = VentaDetalle.objects.ventas_mes_producto(
-    #         self.kwargs['pk']
-    #     )
+        context["ventas_mes"] = VentaDetalle.objects.ventas_mes_producto(
+            self.kwargs['pk']
+        )
 
-    #     return context
+        return context
 
 
 
@@ -110,16 +120,16 @@ def producto_eliminar(request, pk):
 
 
 #IMRIMIR DETALLE EN PDF
-# class ProductDetailViewPdf(LoginRequiredMixin, generic.View):
+class ProductDetailViewPdf(LoginRequiredMixin, generic.View):
     
-#     def get(self, request, *args, **kwargs):
-#         producto = Producto.objects.get(id=self.kwargs['pk'])
-#         data = {
-#             'product': producto,
-#             'ventas_mes': VentaDetalle.objects.ventas_mes_producto(self.kwargs['pk'])
-#         }
-#         pdf = render_to_pdf('productos/imprimir_detalle.html', data)
-#         return HttpResponse(pdf, content_type='application/pdf')
+    def get(self, request, *args, **kwargs):
+        producto = Producto.objects.get(id=self.kwargs['pk'])
+        data = {
+            'product': producto,
+            'ventas_mes': VentaDetalle.objects.ventas_mes_producto(self.kwargs['pk'])
+        }
+        pdf = render_to_pdf('productos/imprimir_detalle.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
     
 
 

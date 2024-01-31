@@ -35,6 +35,9 @@ class Producto(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=True)
+    descuento = models.FloatField("Porcentaje de descuento", default= 0.0)
+    fecha_inicio_descuento = models.DateField("Fecha de inicio de descuento", null=True, blank=True)
+    fecha_fin_descuento = models.DateField("Fecha de fin de descuento", null=True, blank=True)
 
     objects = ProductoManager()
 
@@ -46,21 +49,21 @@ class Producto(models.Model):
         return self.nombre
 
 
-    # #Funcion para obtener promedio de puntaje en productos
-    # def promedioReview(self):
-    #     reviews = ReviewRating.objects.filter(producto=self, status=True).aggregate(promedio=Avg('rating'))
-    #     avg = 0
-    #     if reviews['promedio'] is not None:
-    #         avg = float(reviews['promedio'])
-    #         return avg
 
-    # #Cuenta cuantos comentarios tienen los productos
-    # def contadorReview(self):
-    #     reviews = ReviewRating.objects.filter(producto=self, status=True).aggregate(contador=Count('id'))
-    #     contador = 0
-    #     if reviews['contador'] is not None:
-    #         contador = int(reviews['contador'])
-    #         return contador
+#
+# class Descuento(models.Model):
+#     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+#     descuento = models.FloatField("Porcentaje")
+#     fecha_inicio = models.DateField()
+#     fecha_fin = models.DateField()
+
+#     def __str__(self):
+#         return str(self.producto.nombre) + ' - ' + str(self.descuento)
+
+#     class Meta:
+#         verbose_name_plural = 'Descuentos'
+
+
 
 
 #GUARDA UNA IMAGEN POR DEFAUL SI NO TIENE UNA ASIGNADA AL CREAR EL REGISTRO

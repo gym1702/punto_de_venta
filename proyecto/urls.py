@@ -34,6 +34,7 @@ urlpatterns = [
     re_path('', include('applications.marcas.urls')),
     re_path('', include('applications.proveedores.urls')),
     re_path('', include('applications.productos.urls')),
+    re_path('', include('applications.ventas.urls')),
 
     
     # re_path('', include('applications.medicos.urls')),

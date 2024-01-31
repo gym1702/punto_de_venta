@@ -158,6 +158,31 @@
                                         </div>
                                     </div>  
                                 </div>
+                                <br>
+                                <hr> 
+
+                                <div class="row mb-12">
+                                    <div class="col-4">
+                                        <label>Descuento %</label>
+                                        <div>
+                                            {{ form.descuento }}
+                                        </div>
+                                    </div> 
+
+                                    <div class="col-4">
+                                        <label for="fecha_inicio_descuento">Fecha de inicio de descuento</label>
+                                        <div>
+                                            <input class="form-control" type="date" name="fecha_inicio_descuento" value="{{ obj.fecha_inicio_descuento|date:'Y-m-d' }}">
+                                        </div>
+                                    </div> 
+
+                                    <div class="col-4">
+                                        <label for="fecha_fin_descuento">Fecha de fin de descuento</label>
+                                        <div>
+                                            <input class="form-control" type="date" name="fecha_fin_descuento" value="{{ obj.fecha_fin_descuento|date:'Y-m-d' }}">
+                                        </div>
+                                    </div>  
+                                </div>
                                 <br> 
                                 
                                 <!-- ITEMS CLON PARA VERIFIACR NOMBRE -->

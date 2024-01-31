@@ -14,5 +14,5 @@ urlpatterns =[
     path('verificar_producto_existe/', verificar_producto_existe, name='verificar_producto_existe'),
     path('verificar_codigo_producto_existe/', verificar_codigo_producto_existe, name='verificar_codigo_producto_existe'),
 
-    #path('producto/detalle/print/<int:pk>/', ProductDetailViewPdf.as_view(), name='producto_detalle_print'),
+    path('producto/detalle/print/<int:pk>/', ProductDetailViewPdf.as_view(), name='producto_detalle_print'),
 ]

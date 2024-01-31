@@ -1,0 +1,182 @@
+{% extends 'base/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+
+                        <a href="{% url 'ventas_app:agregar_carrito' %}" class="btn btn-primary">Cerrar</a>
+                       
+                    </div>
+
+                    <div class="card-body">
+
+                        <h2 class="text-muted text-center"> Listado de ventas</h2>
+                        
+                        <table id="tbl" class="table table-bordered table-striped">
+                            <thead>
+                                <th>No.</th>
+                                <th>Fecha</th>
+                                <th>Tipo de venta</th>
+                                <th>Monto total</th>
+                                <th class="all">Eliminar</th>
+                            </thead>
+                            <tbody>
+                                {% for item in ultimas_ventas %}
+                                <tr>
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.fecha |date:'d/m/Y - H:i:s'}}</td>
+                                    <td>{{item.tipo_venta}}</td>
+                                    <td>${{item.monto_iva | floatformat:2 | intcomma}}</td>
+
+                                    <td>   
+                                        <button onclick="abrir_modal('{% url 'ventas_app:ventas_detalle' item.id %}')" class="btn btn-lg btn-secondary btn-sm" title="Ver"><i class="fa fa-eye"></i></button>
+
+                                        <button type="button" class="btn btn-lg btn-danger btn-sm" onclick='return anularVenta("{{ item.id }}", "{% url 'ventas_app:venta_anular' item.id %}")'><i class="fa fa-trash"></i></button>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                            <div class="modal fade" id="frmModal" role="dialog">
+    
+                            </div>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+
+{% block data_table %}
+<script>
+    //INICIALIZAR DATATABLE
+    $("#tbl").DataTable({
+        "responsive": true, 
+        "lengthChange": false, 
+        "autoWidth": false, 
+        "ordering": false,
+        "language": {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i>',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+                title:     'Listado de ventas',
+                exportOptions: {
+                    columns: [0,1,2,3]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i>',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                title:     'Listado de ventas',
+                exportOptions: {
+                    columns: [0,1,2,3]
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i>',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                title:     'Listado de ventas',
+                exportOptions: {
+                    columns: [0,1,2,3]
+                }
+            },
+            {
+                extend: 'colvis',
+                text: '<i class="fas fa-table"></i>',
+                titleAttr: 'Mostar/ocultar campos',
+                className: 'btn btn-secondary'
+            },
+
+        ]
+    }).buttons().container().appendTo('#tbl_wrapper .col-md-6:eq(0)');
+
+
+    
+    //MENSAJE BORRAR 
+    function anularVenta(desc, url){
+      Swal.fire({
+        title: 'Anular',
+        text: `¿Se anulará la venta No. ${desc}, realmente desea hacerlo?`,
+        icon: 'question',
+        // timer: 10000,
+        showCancelButton: true,
+        confirmButtonText: 'Anular',
+        cancelButtonText: 'Cancelar',
+        allowOutsideClick: false,
+        confirmButtonClass: 'btn btn-danger',
+      }).then((eliminar) => {
+        console.log(eliminar)
+        if (eliminar.isConfirmed){
+          var token = '{{csrf_token}}'
+          $.ajax({
+            headers: {'X-CSRFToken': token},
+            type: 'POST',
+            url: url,
+            success: function(r){
+              if(r==='OK'){
+                Swal.fire({
+                  title: '',
+                  text: 'La anulación de la venta se realizo con éxito',
+                  icon: 'success',
+                  timer: 3500,
+                  position: 'center',
+                })
+                actualizarpagina()
+              }else{
+                Swal.fire({
+                  title: 'Error inesperado',
+                  text: 'Se produjo un error al tratar de anular la venta' + r,
+                  icon: 'info',
+                  timer: 1200,
+                })
+              }
+            },
+            error: function(jqXHR, textStatus, errorThrow){
+              Swal.fire(errorThrow, '', 'red')
+            }
+          })
+        }
+      })
+    }
+
+
+</script>
+{% endblock data_table %}
